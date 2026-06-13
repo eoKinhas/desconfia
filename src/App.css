@@ -1,0 +1,736 @@
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  width: 100vw;
+  max-width: 430px;
+  min-height: 100vh;
+  background-color: #000000;
+  background-image: linear-gradient(rgba(0, 204, 255, 0.14) 50%, transparent 50%);
+  background-size: 100% 20px; 
+  animation: tv-scanlines 2s linear infinite;
+  position: relative;
+  padding: 24px; 
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes tv-scanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 20px; }
+}
+
+.tv-glass-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; 
+  z-index: 100; 
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.85);
+}
+
+.osd-text {
+  position: absolute;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: rgba(0, 204, 255, 0.4);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+  letter-spacing: 1px;
+}
+
+/* Animação para o relógio/texto piscar estilo videocassete */
+.blink {
+  animation: osd-blink 1.5s step-start infinite;
+}
+
+@keyframes osd-blink {
+  50% { opacity: 0; }
+}
+
+.top-left { top: 16px; left: 16px; }
+.top-right { top: 16px; right: 16px; }
+.bottom-left { bottom: 16px; left: 16px; }
+.bottom-right { bottom: 16px; right: 16px; }
+
+.header {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  gap: 16px; 
+  margin-bottom: 40px;
+  padding-top: 20px;
+}
+
+.logo-title {
+  display: flex;
+  justify-content: center;
+}
+
+.emoji-logo {
+  font-size: 32px;
+}
+
+.title {
+  font-family: 'Press Start 2P', cursive; 
+  font-size: 25px;
+  color: #000000;
+  background-color: #ffffff;
+  display: inline-block;
+  padding: 10px 17px; /* Caixinha branca maior para acompanhar a letra */
+  border-radius: 0px; 
+}
+
+.settings-btn {
+  background: none;
+  border: none;
+  font-size: 36px;
+  cursor: pointer;
+  outline: none; 
+  -webkit-tap-highlight-color: transparent;
+  align-self: flex-end; 
+}
+
+.subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px; 
+  margin-bottom: 24px;
+  color: #00ccff;
+  text-shadow: 2px 2px 0px #000000;
+  text-align: center;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px; /* Espaço entre os cards */
+}
+
+.game-card {
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: 0px; 
+  border: 4px solid #000000;
+  box-shadow: 6px 6px 0px #00ccff; 
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Efeito de toque nos botões */
+.game-card:active {
+  transform: translate(4px, 4px); 
+  box-shadow: 2px 2px 0px #00ccff;
+}
+
+.game-card h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 17px; 
+  color: #000000;
+  text-align: center;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+  background: none;
+  word-wrap: break-word; 
+}
+
+.game-card p {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 15px; 
+  color: #ffffff; 
+  line-height: 1.6; 
+}
+
+.card-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: transparent; 
+  border: none; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 64px; 
+}
+
+.app-logo {
+  max-width: 400px; 
+  height: auto; 
+  display: block; 
+}
+
+.rules-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px; 
+  padding-bottom: 40px;
+  gap: 24px;
+}
+
+.rules-title {
+  font-size: 20px;
+  padding: 8px 12px;
+}
+
+.rules-box {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 3px solid #555555;
+  padding: 20px;
+  width: 100%;
+}
+
+.rules-box p {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px; 
+  color: #ffffff;
+  line-height: 2.0; 
+  margin-bottom: 24px;
+}
+
+.rules-box p:last-child {
+  margin-bottom: 0;
+}
+
+.rules-box strong {
+  color: #00ccff;
+  text-shadow: 2px 2px 0px #000000; 
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.start-btn {
+  width: 100%;
+  padding: 16px;
+}
+
+.start-btn h2 {
+  font-size: 14px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  color: #888888;
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-btn:active {
+  color: #ffffff;
+}
+
+.app-logo-small {
+  max-width: 180px;
+  height: auto;
+  display: block;
+}
+
+.page-transition {
+  width: 100%;
+  animation: slideFadeIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.game-status-box {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 3px solid #00ccff;
+  padding: 12px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0px; 
+}
+
+.status-text {
+  font-family: 'Press Start 2P', cursive; 
+  font-size: 10px; 
+  color: #00ccff; 
+  line-height: 1.6;
+}
+
+/* O contêiner base da meia lua */
+.velocimetro-container {
+  position: relative;
+  width: 360px;
+  height: 180px; 
+  margin: 8px auto 10px auto; 
+  border-radius: 180px 180px 0 0;
+  border: 6px solid #ffffff;
+  box-shadow: 0px 8px 0px #000000, 0px 0px 15px rgba(0, 204, 255, 0.3);
+  background-color: #111111;
+  overflow: hidden; 
+}
+
+/* O fundo do velocímetro (onde pintamos a zona Ciano) */
+.velocimetro-fundo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-origin: bottom center;
+  transition: all 0.3s ease;
+}
+
+/* Quando o jogador pode ver a resposta */
+.alvo-aberto {
+  /* Usamos o CALC() para desenhar as camadas do alvo a partir da variável --centro */
+  background: conic-gradient(
+    from -90deg at 50% 100%,
+    #2a2a2a 0deg,
+    #2a2a2a calc(var(--centro) - 24deg),
+    
+    /* Faixa de 1 Ponto (Azul) */
+    #0055aa calc(var(--centro) - 24deg),
+    #0055aa calc(var(--centro) - 12deg),
+    
+    /* Faixa de 3 Pontos (Verde Neon) */
+    #00ffaa calc(var(--centro) - 12deg),
+    #00ffaa calc(var(--centro) - 4deg),
+    
+    /* Faixa de 5 Pontos (Amarelo Ouro - O Centro Exato) */
+    #ffcc00 calc(var(--centro) - 4deg),
+    #ffcc00 calc(var(--centro) + 4deg),
+    
+    /* Faixa de 3 Pontos (Verde Neon) */
+    #00ffaa calc(var(--centro) + 4deg),
+    #00ffaa calc(var(--centro) + 12deg),
+    
+    /* Faixa de 1 Ponto (Azul) */
+    #0055aa calc(var(--centro) + 12deg),
+    #0055aa calc(var(--centro) + 24deg),
+    
+    #2a2a2a calc(var(--centro) + 24deg),
+    #2a2a2a 180deg
+  );
+}
+
+/* Quando o celular é passado para os outros adivinharem (Efeito de persiana de aço fechada) */
+.alvo-fechado {
+  background: #222222; 
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 10px,
+    rgba(0,0,0,0.6) 10px,
+    rgba(0,0,0,0.6) 15px
+  );
+}
+
+/* Ponteiro e Controller*/
+
+.velocimetro-ponteiro {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 8px; 
+  height: 155px; 
+  transform-origin: bottom center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 10;
+}
+
+.ponteiro-agulha {
+  width: 4px;
+  height: 100%;
+  background-color: #ff0055;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.8);
+}
+
+.ponteiro-base {
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border: 4px solid #000000;
+  border-radius: 0px; 
+  margin-bottom: -12px; 
+}
+
+.controles-jogador {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* O Slider (A barra que você arrasta com o dedo) modificado para o visual retrô */
+.retro-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  background: #2a2a2a;
+  outline: none;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0px #00ccff;
+  margin-top: 10px;
+}
+
+.retro-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 40px;
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0px #ff0055;
+  cursor: pointer;
+}
+
+.extremos-container {
+  display: flex;
+  justify-content: space-between;
+  width: 360px; /* Mesma largura da meia lua */
+  margin: 0 auto 20px auto;
+}
+
+.extremo-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px dashed #555555;
+  color: #888888;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  width: 150px;
+  text-align: center;
+  padding: 8px 0;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.extremo-input:focus, 
+.extremo-input:not(:placeholder-shown) {
+  border-bottom: 2px solid #00ccff;
+  color: #00ccff;
+  font-size: 14px;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+.pontos-animacao {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 4px 4px 0px #000000, -2px -2px 0px #000000;
+  z-index: 20;
+  animation: popUpPoints 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+}
+
+.pontos-animacao.ganhou { color: #ffcc00; }
+.pontos-animacao.errou { color: #ff0055; }
+
+@keyframes popUpPoints {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(0.1); font-size: 10px; }
+  50% { opacity: 1; transform: translate(-50%, -60%) scale(1.2); font-size: 48px; }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); font-size: 40px; }
+}
+
+.placar-arcade {
+  width: 100%;
+  background-color: #000000;
+  border: 4px solid #333333;
+  margin-top: 24px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.placar-titulo {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.historico-lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.rodada-badge {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  background-color: #111111;
+  color: #00ccff;
+  padding: 4px 8px;
+  border: 1px solid #00ccff;
+}
+
+.total-display {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  color: #ffcc00;
+  margin-top: 8px;
+  text-shadow: 2px 2px 0px #333333;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.modal-box {
+  background-color: #111111;
+  border: 4px solid #ff0055;
+  padding: 32px 24px;
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.modal-box p {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  color: #ffffff;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.modal-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  padding: 16px 24px;
+  border: 4px solid #000000;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-sim {
+  background-color: #ff0055;
+  color: #ffffff;
+}
+
+.btn-nao {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.btn-sim:active, .btn-nao:active {
+  transform: translate(2px, 2px);
+}
+
+/* ========================================= */
+/* --- TELA DE CONFIGURAÇÕES / JOGADORES --- */
+
+.avatar-selector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.avatar-btn {
+  background-color: #222222;
+  border: 2px solid #555555;
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.avatar-btn.selecionado {
+  background-color: #ffffff;
+  border: 2px solid #00ccff;
+  transform: scale(1.1);
+  box-shadow: 4px 4px 0px #00ccff;
+}
+
+.player-list-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  max-height: 40vh; 
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111111;
+  border: 3px solid #333333;
+  padding: 12px;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-avatar {
+  font-size: 20px;
+}
+
+.player-name {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: #ffffff;
+}
+
+.delete-player-btn {
+  background-color: #ff0055;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  border: 2px solid #000000;
+  padding: 8px 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.delete-player-btn:active {
+  transform: translate(2px, 2px);
+}
+
+/* ========================================= */
+
+/* ========================================= */
+/* --- SETUP DO IMPOSTOR                 --- */
+
+.toggle-btn {
+  flex: 1;
+  background-color: #111111;
+  border: 2px solid #555555;
+  color: #888888;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle-btn.ativo {
+  background-color: #00ccff;
+  color: #000000;
+  border: 2px solid #00ccff;
+  box-shadow: 4px 4px 0px #000000;
+}
+
+.player-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #111111;
+  border: 2px solid #333333;
+  padding: 8px 12px;
+  border-radius: 20px; /* Bordas arredondadas para dar contraste visual */
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  color: #555555;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+}
+
+.player-chip.selecionado {
+  border: 2px solid #ffcc00; /* Destaque amarelo para quem vai jogar */
+  color: #ffffff;
+  opacity: 1;
+  background-color: #222222;
+}
+
+.avatar-display { font-size: 80px; margin: 40px 0; }
+
+.hold-btn {
+  width: 250px;
+  height: 250px;
+  border: 8px solid #00ccff;
+  background: #111;
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 10px;
+  background: #ff0055;
+  transition: width 0.1s linear;
+}
+
+.reveal-box { text-align: center; }
+.reveal-text { 
+  font-family: 'Press Start 2P', cursive; 
+  font-size: 24px; 
+  color: #ff0055; 
+  margin: 20px 0;
+  text-shadow: 4px 4px 0px #fff;
+}
+
+/* ========================================= */
