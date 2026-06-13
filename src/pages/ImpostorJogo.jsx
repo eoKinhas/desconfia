@@ -39,7 +39,6 @@ function ImpostorJogo({ setTelaAtual }) {
       };
     });
 
-    // Agora salvamos no estado e na memória do celular
     setJogadores(jogadoresComFuncao);
     localStorage.setItem('impostor_rodada_atual', JSON.stringify(jogadoresComFuncao));
   }, []);
@@ -81,7 +80,7 @@ function ImpostorJogo({ setTelaAtual }) {
     if (indiceJogador < jogadores.length - 1) {
       setIndiceJogador(indiceJogador + 1);
     } else {
-      setTelaAtual('impostor-votacao'); // Vai para a tela de votação!
+      setTelaAtual('impostor-votacao'); 
     }
   };
 
@@ -90,73 +89,81 @@ function ImpostorJogo({ setTelaAtual }) {
   const jogadorAtual = jogadores[indiceJogador];
 
   return (
-    <div className="rules-screen page-transition">
-      <img src={logoImg} alt="Logo Desconfia" className="app-logo" />
-      <h1 className="title rules-title" style={{ marginBottom: '8px' }}>IMPOSTOR</h1>
-      
-      <div className="game-status-box" style={{ width: '100%', textAlign: 'center' }}>
-        <p className="status-text" style={{ fontSize: '12px'}}>PASSE O CELULAR PARA:</p>
-      </div>
+    <div className="rules-screen page-transition" style={{ height: '100%', paddingBottom: '0' }}>
+      <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px' }}>
+        
+        <img src={logoImg} alt="Logo Desconfia" className="app-logo" />
+        <h1 className="title rules-title" style={{ marginBottom: '8px' }}>IMPOSTOR</h1>
+        
+        <div className="game-status-box" style={{ width: '100%', textAlign: 'center', marginBottom: '24px' }}>
+          <p className="status-text" style={{ fontSize: '12px'}}>PASSE O CELULAR PARA:</p>
+        </div>
 
-      {!revelado ? (
-        <button 
-          className="hold-btn"
-          onTouchStart={iniciarPressao} 
-          onTouchEnd={pararPressao}
-          onTouchCancel={pararPressao}
-          onMouseDown={iniciarPressao} 
-          onMouseUp={pararPressao}
-          onMouseLeave={pararPressao} 
-          style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            gap: '12px' 
-          }}
-        >
-          <div style={{ fontSize: '72px' }}>{jogadorAtual.avatar}</div>
-          <div style={{ 
-            fontSize: '16px', 
-            color: '#00ccff', 
-            fontFamily: '"Press Start 2P", cursive',
-            width: '100%',
-            padding: '0 16px',
-            boxSizing: 'border-box',
-            wordWrap: 'break-word',
-            textAlign: 'center',
-            lineHeight: '1.4'
-          }}>
-            {jogadorAtual.nome}
+        {!revelado ? (
+          <button 
+            className="hold-btn"
+            onTouchStart={iniciarPressao} 
+            onTouchEnd={pararPressao}
+            onTouchCancel={pararPressao}
+            onMouseDown={iniciarPressao} 
+            onMouseUp={pararPressao}
+            onMouseLeave={pararPressao} 
+            style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              gap: '12px' 
+            }}
+          >
+            <div style={{ fontSize: '72px' }}>{jogadorAtual.avatar}</div>
+            <div style={{ 
+              fontSize: '16px', 
+              color: '#00ccff', 
+              fontFamily: '"Press Start 2P", cursive',
+              width: '100%',
+              padding: '0 16px',
+              boxSizing: 'border-box',
+              wordWrap: 'break-word',
+              textAlign: 'center',
+              lineHeight: '1.4'
+            }}>
+              {jogadorAtual.nome}
+            </div>
+            
+            <div style={{ fontSize: '10px', color: '#888888', marginTop: '16px' }}>
+              (SEGURE PARA REVELAR)
+            </div>
+            
+            <div className="progress-bar" style={{ width: `${progresso}%` }}></div>
+          </button>
+        ) : (
+          <div className="reveal-box" style={{ marginTop: '0px' }}>
+            <div style={{ fontSize: '56px', marginBottom: '16px' }}>{jogadorAtual.avatar}</div>
+            
+            <p className="status-text" style={{ marginTop: '24px' }}>SUA PALAVRA É:</p>
+            <h1 className="reveal-text">{jogadorAtual.palavraExibida}</h1>
           </div>
-          
-          <div style={{ fontSize: '10px', color: '#888888', marginTop: '16px' }}>
-            (SEGURE PARA REVELAR)
-          </div>
-          
-          <div className="progress-bar" style={{ width: `${progresso}%` }}></div>
-        </button>
-      ) : (
-        <div className="reveal-box" style={{ marginTop: '24px' }}>
-          <div style={{ fontSize: '56px', marginBottom: '16px' }}>{jogadorAtual.avatar}</div>
-          
-          <p className="status-text" style={{ marginTop: '35px' }}>SUA PALAVRA É:</p>
-          <h1 className="reveal-text">{jogadorAtual.palavraExibida}</h1>
-          
+        )}
+
+      </div> {/* FECHA RECHEIO DINÂMICO */}
+
+      <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
+        {revelado && (
           <button 
             className="game-card start-btn" 
             onClick={proximoJogador} 
             style={{ 
               backgroundColor: podeAvancar ? '#00ccff' : '#555555', 
-              marginTop: '32px',
               opacity: podeAvancar ? 1 : 0.5,
               transition: 'all 0.3s'
             }}
           >
             <h2 style={{ color: '#000000', fontSize: '14px' }}>OK, PRÓXIMO</h2>
           </button>
-        </div>
-      )}
+        )}
+      </div>
+
     </div>
   );
 }

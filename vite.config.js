@@ -11,7 +11,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,ttf,woff2}']
       },
       manifest: {
-        name: 'Desconfia App',
+        name: 'Desconfia!',
         short_name: 'Desconfia',
         theme_color: '#000000',
         icons: [

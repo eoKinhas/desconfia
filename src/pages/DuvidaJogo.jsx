@@ -83,97 +83,111 @@ function DuvidaJogo({ setTelaAtual }) {
   const jogadorAtual = jogadores[indiceJogador];
 
   return (
-    <div className="rules-screen page-transition">
-      <img src={logoImg} alt="Logo Desconfia" className="app-logo" />
-      <h1 className="title rules-title" style={{ marginBottom: '8px' }}>DÚVIDA</h1>
-      
-      {faseJogo === 'passando_celular' ? (
-        <>
-          <div className="game-status-box" style={{ width: '100%', textAlign: 'center' }}>
-            <p className="status-text" style={{ fontSize: '12px'}}>PASSE O CELULAR PARA:</p>
-          </div>
+    <div className="rules-screen page-transition" style={{ height: '100%', paddingBottom: '0' }}>
+      <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px' }}>
+        
+        <img src={logoImg} alt="Logo Desconfia" className="app-logo" />
+        <h1 className="title rules-title" style={{ marginBottom: '0px' }}>DÚVIDA</h1>
+        
+        {faseJogo === 'passando_celular' ? (
+          <>
+            <div className="game-status-box" style={{ width: '100%', textAlign: 'center' }}>
+              <p className="status-text" style={{ fontSize: '12px'}}>PASSE O CELULAR PARA:</p>
+            </div>
 
-          {!revelado ? (
-            <button 
-              className="hold-btn"
-              onTouchStart={iniciarPressao} onTouchEnd={pararPressao} onTouchCancel={pararPressao}
-              onMouseDown={iniciarPressao} onMouseUp={pararPressao} onMouseLeave={pararPressao} 
-              style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '12px' }}
-            >
-              <div style={{ fontSize: '72px' }}>{jogadorAtual.avatar}</div>
-              <div style={{ fontSize: '16px', color: '#00ccff', fontFamily: '"Press Start 2P", cursive', width: '100%', padding: '0 16px', boxSizing: 'border-box', wordWrap: 'break-word', textAlign: 'center', lineHeight: '1.4' }}>
-                {jogadorAtual.nome}
+            {!revelado ? (
+              <button 
+                className="hold-btn"
+                onTouchStart={iniciarPressao} onTouchEnd={pararPressao} onTouchCancel={pararPressao}
+                onMouseDown={iniciarPressao} onMouseUp={pararPressao} onMouseLeave={pararPressao} 
+                style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '12px' }}
+              >
+                <div style={{ fontSize: '72px' }}>{jogadorAtual.avatar}</div>
+                <div style={{ fontSize: '16px', color: '#00ccff', fontFamily: '"Press Start 2P", cursive', width: '100%', padding: '0 16px', boxSizing: 'border-box', wordWrap: 'break-word', textAlign: 'center', lineHeight: '1.4' }}>
+                  {jogadorAtual.nome}
+                </div>
+                <div style={{ fontSize: '10px', color: '#888888', marginTop: '16px' }}>(SEGURE PARA LER)</div>
+                <div className="progress-bar" style={{ width: `${progresso}%` }}></div>
+              </button>
+            ) : (
+              <div className="reveal-box" style={{ marginTop: '0px', width: '100%' }}>
+                <div style={{ fontSize: '56px', marginBottom: '16px' }}>{jogadorAtual.avatar}</div>
+                <p className="status-text" style={{ marginTop: '24px'}}>SUA PERGUNTA É:</p>
+                
+                <div className="rules-box" style={{ marginTop: '16px', padding: '24px', backgroundColor: '#111', border: '1px solid #333' }}>
+                  <p style={{ fontSize: '16px', color: '#ffffff', lineHeight: '1.6', textAlign: 'center', fontWeight: 'bold' }}>
+                    {jogadorAtual.perguntaExibida}
+                  </p>
+                </div>
               </div>
-              <div style={{ fontSize: '10px', color: '#888888', marginTop: '16px' }}>(SEGURE PARA LER)</div>
-              <div className="progress-bar" style={{ width: `${progresso}%` }}></div>
-            </button>
-          ) : (
-            <div className="reveal-box" style={{ marginTop: '24px', width: '100%' }}>
-              <div style={{ fontSize: '56px', marginBottom: '16px' }}>{jogadorAtual.avatar}</div>
-              <p className="status-text" style={{ marginTop: '35px'}}>SUA PERGUNTA É:</p>
-              
-              <div className="rules-box" style={{ marginTop: '16px', padding: '24px', backgroundColor: '#111', border: '1px solid #333' }}>
-                <p style={{ fontSize: '16px', color: '#ffffff', lineHeight: '1.6', textAlign: 'center', fontWeight: 'bold' }}>
-                  {jogadorAtual.perguntaExibida}
+            )}
+          </>
+        ) : (
+          <>
+            {!perguntaFinalRevelada ? (
+              /* TELA DE SUSPENSE ANTES DA REVELAÇÃO */
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '24px' }}>
+                <div className="game-status-box" style={{ width: '100%', textAlign: 'center', padding: '24px 16px' }}>
+                  <p className="status-text" style={{ color: '#ffcc00', fontSize: '16px' }}>TODOS RESPONDERAM?</p>
+                  <p style={{ fontSize: '12px', color: '#fff', fontFamily: '"Press Start 2P", cursive', marginTop: '16px', lineHeight: '1.6' }}>
+                    Coloque o celular no centro da mesa. Quando estiverem prontos, revelem a pergunta!
+                  </p>
+                </div>
+              </div>
+            ) : (
+              /* TELA DA PERGUNTA REVELADA */
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '24px' }}>
+                <p className="status-text" style={{ marginBottom: '0px', color: '#00ffaa' }}>A PERGUNTA ORIGINAL ERA:</p>
+                
+                <div className="rules-box" style={{ width: '100%', backgroundColor: '#111', padding: '32px 24px', borderRadius: '16px', border: '2px solid #00ffaa' }}>
+                  <p style={{ fontSize: '18px', color: '#ffffff', lineHeight: '1.6', textAlign: 'center', fontWeight: 'bold' }}>
+                    "{perguntaOriginal}"
+                  </p>
+                </div>
+                
+                <p style={{ fontSize: '10px', color: '#888', fontFamily: '"Press Start 2P", cursive', marginTop: '0px', lineHeight: '1.5', textAlign: 'center' }}>
+                  Quem deu a resposta mais absurda?
                 </p>
               </div>
-              
-              <button 
-                className="game-card start-btn" 
-                onClick={proximoJogador} 
-                style={{ backgroundColor: podeAvancar ? '#00ccff' : '#555555', marginTop: '32px', opacity: podeAvancar ? 1 : 0.5, transition: 'all 0.3s' }}
-              >
-                <h2 style={{ color: '#000000', fontSize: '14px' }}>OK, ENTENDI</h2>
-              </button>
-            </div>
-          )}
-        </>
-      ) : (
-        <>
-          {!perguntaFinalRevelada ? (
-            /* TELA DE SUSPENSE ANTES DA REVELAÇÃO */
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <div className="game-status-box" style={{ width: '100%', textAlign: 'center', padding: '24px 16px' }}>
-                <p className="status-text" style={{ color: '#ffcc00', fontSize: '16px' }}>TODOS RESPONDERAM?</p>
-                <p style={{ fontSize: '12px', color: '#fff', fontFamily: '"Press Start 2P", cursive', marginTop: '16px', lineHeight: '1.6' }}>
-                  Coloque o celular no centro da mesa. Quando estiverem prontos, revelem a pergunta!
-                </p>
-              </div>
+            )}
+          </>
+        )}
+      </div> {/* FIM RECHEIO DINÂMICO */}
 
-              <button 
-                className="game-card start-btn" 
-                onClick={() => setPerguntaFinalRevelada(true)} 
-                style={{ backgroundColor: '#00ffaa', marginTop: '48px' }}
-              >
-                <h2 style={{ color: '#000000', fontSize: '14px' }}>REVELAR PERGUNTA</h2>
-              </button>
-            </div>
-          ) : (
-            /* TELA DA PERGUNTA REVELADA */
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <p className="status-text" style={{ marginBottom: '16px', color: '#00ffaa' }}>A PERGUNTA ORIGINAL ERA:</p>
-              
-              <div className="rules-box" style={{ width: '100%', backgroundColor: '#111', padding: '32px 24px', borderRadius: '16px', border: '2px solid #00ffaa' }}>
-                <p style={{ fontSize: '18px', color: '#ffffff', lineHeight: '1.6', textAlign: 'center', fontWeight: 'bold' }}>
-                  "{perguntaOriginal}"
-                </p>
-              </div>
-              
-              <p style={{ fontSize: '10px', color: '#888', fontFamily: '"Press Start 2P", cursive', marginTop: '24px', lineHeight: '1.5', textAlign: 'center' }}>
-                Quem deu a resposta mais absurda?
-              </p>
+      {/* RODAPÉ FIXO DE AÇÕES */}
+      <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
+        
+        {faseJogo === 'passando_celular' && revelado && (
+          <button 
+            className="game-card start-btn" 
+            onClick={proximoJogador} 
+            style={{ backgroundColor: podeAvancar ? '#00ccff' : '#555555', opacity: podeAvancar ? 1 : 0.5, transition: 'all 0.3s' }}
+          >
+            <h2 style={{ color: '#000000', fontSize: '14px' }}>OK, ENTENDI</h2>
+          </button>
+        )}
 
-              <button 
-                className="game-card start-btn" 
-                onClick={() => setTelaAtual('duvida-votacao')} 
-                style={{ backgroundColor: '#ff0055', marginTop: '32px' }}
-              >
-                <h2 style={{ color: '#ffffff', fontSize: '14px' }}>IR PARA VOTAÇÃO</h2>
-              </button>
-            </div>
-          )}
-        </>
-      )}
+        {faseJogo !== 'passando_celular' && !perguntaFinalRevelada && (
+          <button 
+            className="game-card start-btn" 
+            onClick={() => setPerguntaFinalRevelada(true)} 
+            style={{ backgroundColor: '#00ffaa' }}
+          >
+            <h2 style={{ color: '#000000', fontSize: '14px' }}>REVELAR PERGUNTA</h2>
+          </button>
+        )}
+
+        {faseJogo !== 'passando_celular' && perguntaFinalRevelada && (
+          <button 
+            className="game-card start-btn" 
+            onClick={() => setTelaAtual('duvida-votacao')} 
+            style={{ backgroundColor: '#ff0055' }}
+          >
+            <h2 style={{ color: '#ffffff', fontSize: '14px' }}>IR PARA VOTAÇÃO</h2>
+          </button>
+        )}
+
+      </div>
     </div>
   );
 }
