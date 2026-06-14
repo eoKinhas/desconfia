@@ -101,7 +101,7 @@ function ImpostorVotacao({ setTelaAtual }) {
             );
           })}
         </div>
-      </div> {/* FIM RECHEIO DINÂMICO */}
+      </div>
 
       {/* RODAPÉ FIXO */}
       <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
@@ -114,13 +114,23 @@ function ImpostorVotacao({ setTelaAtual }) {
             <h2 style={{ color: '#000000', fontSize: '14px' }}>REVELAR IMPOSTOR</h2>
           </button>
         ) : (
-          <button 
-            className="game-card start-btn" 
-            onClick={() => setTelaAtual('home')}
-            style={{ backgroundColor: '#00ccff' }}
-          >
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>FIM DE JOGO</h2>
-          </button>
+          <div style={{ display: 'flex', gap: '16px', width: '100%' }}>
+            <button 
+              className="game-card start-btn" 
+              onClick={() => setTelaAtual('impostor-regras')}
+              style={{ backgroundColor: '#00ffaa', flex: 1, padding: '16px 8px' }}
+            >
+              <h2 style={{ color: '#000000', fontSize: '12px' }}>JOGAR NOVAMENTE</h2>
+            </button>
+            
+            <button 
+              className="game-card start-btn" 
+              onClick={() => setTelaAtual('home')}
+              style={{ backgroundColor: '#00ccff', flex: 1, padding: '16px 8px' }}
+            >
+              <h2 style={{ color: '#000000', fontSize: '12px' }}>SAIR</h2>
+            </button>
+          </div>
         )}
       </div>
     </div>

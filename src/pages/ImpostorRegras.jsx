@@ -14,10 +14,27 @@ function ImpostorRegras({ setTelaAtual }) {
   const [alerta, setAlerta] = useState(null);
 
   useEffect(() => {
+    // Carrega todos os jogadores cadastrados no app
     const salvos = localStorage.getItem('desconfia_jogadores');
     if (salvos) {
-      const parsed = JSON.parse(salvos);
-      setJogadoresCadastrados(parsed);
+      setJogadoresCadastrados(JSON.parse(salvos));
+    }
+
+    // Busca as configurações da última partida de Impostor
+    const setupSalvo = localStorage.getItem('impostor_setup_atual');
+    if (setupSalvo) {
+      const setup = JSON.parse(setupSalvo);
+      // Restaura as configurações
+      setJogadoresSelecionados(setup.jogadores || []);
+      setQtdImpostores(setup.impostores || 1);
+      setModoJogo(setup.modo || 'padrao');
+      
+      // Se houver temas salvos, restaura eles. Caso contrário, mantém todos selecionados.
+      if (setup.temas && setup.temas.length > 0) {
+        setTemasSelecionados(setup.temas);
+      }
+    } else {
+      // Se for a primeira vez jogando, começa zerado
       setJogadoresSelecionados([]);
     }
   }, []);

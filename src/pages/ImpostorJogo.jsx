@@ -2,6 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { bancoDePalavras } from '../data/palavrasImpostor';
 import logoImg from '../assets/logo.png';
 
+// Função de embaralhamento 100% aleatório (Fisher-Yates)
+const embaralharArray = (arrayOriginal) => {
+  const array = [...arrayOriginal];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 function ImpostorJogo({ setTelaAtual }) {
   const [setup, setSetup] = useState(JSON.parse(localStorage.getItem('impostor_setup_atual')));
   const [jogadores, setJogadores] = useState([]);
@@ -15,21 +25,35 @@ function ImpostorJogo({ setTelaAtual }) {
     const todosCadastrados = JSON.parse(localStorage.getItem('desconfia_jogadores'));
     const selecionados = todosCadastrados.filter(j => setup.jogadores.includes(j.id));
     
-    const shuffled = [...selecionados].sort(() => 0.5 - Math.random());
-    const impostores = shuffled.slice(0, setup.impostores);
+    // Sorteio dos impostores
+    const shuffledJogadores = embaralharArray(selecionados);
+    const impostores = shuffledJogadores.slice(0, setup.impostores);
 
-    const palavrasFiltradas = bancoDePalavras.filter(item => setup.temas.includes(item.tema));
-    const poolDePalavras = palavrasFiltradas.length > 0 ? palavrasFiltradas : bancoDePalavras;
-    const palavraSorteada = poolDePalavras[Math.floor(Math.random() * poolDePalavras.length)];
+    // Filtra os blocos baseados nos temas selecionados na tela de regras
+    const blocosFiltrados = bancoDePalavras.filter(bloco => setup.temas.includes(bloco.tema));
+    // Se por acaso der erro e vir vazio, usa o banco todo por segurança
+    const poolDeBlocos = blocosFiltrados.length > 0 ? blocosFiltrados : bancoDePalavras;
+
+    // Sorteia um bloco aleatório (ex: Bloco 27 de "Casa")
+    const blocoSorteado = poolDeBlocos[Math.floor(Math.random() * poolDeBlocos.length)];
+
+    // Sorteio das palavras dentro do bloco escolhido
+    const palavrasEmbaralhadas = embaralharArray(blocoSorteado.palavras);
+
+    // Separa as palavras da rodada
+    const palavraParaInocentes = palavrasEmbaralhadas[0];
+    const palavraParaImpostor = palavrasEmbaralhadas[1];
 
     const jogadoresComFuncao = selecionados.map(j => {
       const eImpostor = impostores.find(i => i.id === j.id) !== undefined;
       let palavraExibida = '';
 
       if (eImpostor) {
-        palavraExibida = setup.modo === 'similar' ? palavraSorteada.similar : 'IMPOSTOR';
+        // Se for o modo "similar/camaleão", ele ganha a palavra 2. Se for padrão, ganha "IMPOSTOR"
+        palavraExibida = setup.modo === 'similar' ? palavraParaImpostor : 'IMPOSTOR';
       } else {
-        palavraExibida = palavraSorteada.palavra;
+        // Os inocentes sempre recebem a palavra 1
+        palavraExibida = palavraParaInocentes;
       }
 
       return {

@@ -2,6 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { bancoDeDuvidas } from '../data/duvidasImpostor'; 
 import logoImg from '../assets/logo.png';
 
+// Função profissional para embaralhamento 100% aleatório (Fisher-Yates)
+const embaralharArray = (arrayOriginal) => {
+  const array = [...arrayOriginal];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 function DuvidaJogo({ setTelaAtual }) {
   const [setup, setSetup] = useState(JSON.parse(localStorage.getItem('duvida_setup_atual')));
   const [jogadores, setJogadores] = useState([]);
@@ -19,19 +29,29 @@ function DuvidaJogo({ setTelaAtual }) {
     const todosCadastrados = JSON.parse(localStorage.getItem('desconfia_jogadores'));
     const selecionados = todosCadastrados.filter(j => setup.jogadores.includes(j.id));
     
-    const shuffled = [...selecionados].sort(() => 0.5 - Math.random());
-    const impostores = shuffled.slice(0, setup.impostores);
+    // 1. Sorteio JUSTO dos infiltrados usando Fisher-Yates
+    const shuffledJogadores = embaralharArray(selecionados);
+    const impostores = shuffledJogadores.slice(0, setup.impostores);
     
-    const sorteio = bancoDeDuvidas[Math.floor(Math.random() * bancoDeDuvidas.length)];
-    setPerguntaOriginal(sorteio.perguntaCerta); 
+    // 2. Sorteia um bloco aleatório de perguntas
+    const blocoSorteado = bancoDeDuvidas[Math.floor(Math.random() * bancoDeDuvidas.length)];
     
+    // 3. Sorteio JUSTO das perguntas dentro do bloco
+    const perguntasEmbaralhadas = embaralharArray(blocoSorteado.perguntas);
+    
+    const perguntaParaInocentes = perguntasEmbaralhadas[0];
+    const perguntaParaInfiltrados = perguntasEmbaralhadas[1];
+
+    setPerguntaOriginal(perguntaParaInocentes); 
+    
+    // 4. Distribui as perguntas para os jogadores
     const jogadoresComFuncao = selecionados.map(j => {
       const eImpostor = impostores.find(i => i.id === j.id) !== undefined;
       
       return {
         ...j,
         eImpostor,
-        perguntaExibida: eImpostor ? sorteio.perguntaImpostor : sorteio.perguntaCerta
+        perguntaExibida: eImpostor ? perguntaParaInfiltrados : perguntaParaInocentes
       };
     });
 
@@ -125,7 +145,6 @@ function DuvidaJogo({ setTelaAtual }) {
         ) : (
           <>
             {!perguntaFinalRevelada ? (
-              /* TELA DE SUSPENSE ANTES DA REVELAÇÃO */
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '24px' }}>
                 <div className="game-status-box" style={{ width: '100%', textAlign: 'center', padding: '24px 16px' }}>
                   <p className="status-text" style={{ color: '#ffcc00', fontSize: '16px' }}>TODOS RESPONDERAM?</p>
@@ -135,7 +154,6 @@ function DuvidaJogo({ setTelaAtual }) {
                 </div>
               </div>
             ) : (
-              /* TELA DA PERGUNTA REVELADA */
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '24px' }}>
                 <p className="status-text" style={{ marginBottom: '0px', color: '#00ffaa' }}>A PERGUNTA ORIGINAL ERA:</p>
                 
@@ -152,9 +170,8 @@ function DuvidaJogo({ setTelaAtual }) {
             )}
           </>
         )}
-      </div> {/* FIM RECHEIO DINÂMICO */}
+      </div> 
 
-      {/* RODAPÉ FIXO DE AÇÕES */}
       <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
         
         {faseJogo === 'passando_celular' && revelado && (

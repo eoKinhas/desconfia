@@ -9,9 +9,21 @@ function DuvidaRegras({ setTelaAtual }) {
   const [alerta, setAlerta] = useState(null);
 
   useEffect(() => {
-    const salvos = localStorage.getItem('desconfia_jogadores');
-    if (salvos) {
-      setJogadoresCadastrados(JSON.parse(salvos));
+    // Carrega todos os jogadores que foram cadastrados na Engrenagem
+    const jogadoresSalvos = localStorage.getItem('desconfia_jogadores');
+    if (jogadoresSalvos) {
+      setJogadoresCadastrados(JSON.parse(jogadoresSalvos));
+    }
+
+    // Busca as configurações da última partida de Dúvida
+    const setupSalvo = localStorage.getItem('duvida_setup_atual');
+    if (setupSalvo) {
+      const setup = JSON.parse(setupSalvo);
+      // Restaura os jogadores que estavam jogando e a quantidade de infiltrados
+      setJogadoresSelecionados(setup.jogadores || []);
+      setQtdImpostores(setup.impostores || 1);
+    } else {
+      // Se for a primeira vez jogando (sem memória), começa zerado
       setJogadoresSelecionados([]);
     }
   }, []);
