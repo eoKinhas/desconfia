@@ -11,6 +11,8 @@ import ImpostorVotacao from './pages/ImpostorVotacao';
 import DuvidaRegras from './pages/DuvidaRegras';
 import DuvidaJogo from './pages/DuvidaJogo';
 import DuvidaVotacao from './pages/DuvidaVotacao';
+import CoresRegras from './pages/CoresRegras';
+import CoresJogo from './pages/CoresJogo';
 
 function App() {
   const [telaAtual, setTelaAtual] = useState('home');
@@ -35,6 +37,8 @@ function App() {
       {telaAtual === 'duvida-regras' && <DuvidaRegras setTelaAtual={setTelaAtual} />}
       {telaAtual === 'duvida-jogo' && <DuvidaJogo setTelaAtual={setTelaAtual} />}
       {telaAtual === 'duvida-votacao' && <DuvidaVotacao setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'cores-regras' && <CoresRegras setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'cores-jogo' && <CoresJogo setTelaAtual={setTelaAtual} />}
       
     </div>
   );

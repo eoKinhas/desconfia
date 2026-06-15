@@ -32,9 +32,9 @@ function Home({ setTelaAtual }) {
               <h2>Dúvidas</h2>
             </div>
 
-            <div className="game-card">
-              <div className="card-image-placeholder">🐺</div>
-              <h2>...</h2>
+            <div className="game-card" onClick={() => setTelaAtual('cores-regras')}>
+              <div className="card-image-placeholder">🎨</div>
+              <h2>Cores</h2>
             </div>
           </div>
         </main>
