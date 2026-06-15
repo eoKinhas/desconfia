@@ -106,7 +106,7 @@ function DuvidaJogo({ setTelaAtual }) {
     <div className="rules-screen page-transition" style={{ height: '100%', paddingBottom: '0' }}>
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px' }}>
         
-        <img src={logoImg} alt="Logo Desconfia" className="app-logo" />
+        <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
         <h1 className="title rules-title" style={{ marginBottom: '0px' }}>DÚVIDA</h1>
         
         {faseJogo === 'passando_celular' ? (

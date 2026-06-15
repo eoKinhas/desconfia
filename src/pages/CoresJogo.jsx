@@ -71,12 +71,13 @@ function CoresJogo({ setTelaAtual }) {
 
   return (
     <div className="rules-screen page-transition" style={{ height: '100%', paddingBottom: '0' }}>
-      <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '16px' }}>
+      {/* Ajuste 1: Diminuimos o gap e o padding inferior do container principal para sobrar mais espaço */}
+      <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '8px', gap: '12px' }}>
         
-        <img src={logoImg} alt="Logo Desconfia" className="app-logo" style={{ marginBottom: '0px' }} />
+        <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" style={{ marginBottom: '0px' }} />
         
         {/* CAIXA DE STATUS SUPERIOR */}
-        <div className="game-status-box" style={{ width: '100%', textAlign: 'center', padding: '12px' }}>
+        <div className="game-status-box" style={{ width: '100%', textAlign: 'center', padding: '10px' }}>
           <p className="status-text" style={{ fontSize: '10px', color: '#ffcc00' }}>
             {faseJogo === 'preparacao' && 'PREPARE-SE PARA MEMORIZAR!'}
             {faseJogo === 'memorizacao' && `GRAVE A COR: ${tempoRestante}s`}
@@ -93,8 +94,9 @@ function CoresJogo({ setTelaAtual }) {
           alignItems: 'center',
           gap: faseJogo === 'resultado' ? '16px' : '0px',
           margin: '0',
-          position: 'relative', // Permite que a caixa filha flutue sobre a outra
-          height: '360px', 
+          position: 'relative',
+          /* Ajuste 2: Altura reduzida de 360px para 240px */
+          height: '300px', 
           transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
         }}>
           
@@ -103,7 +105,6 @@ function CoresJogo({ setTelaAtual }) {
             backgroundColor: faseJogo === 'preparacao' ? '#111111' : `hsl(${corAlvo.h}, ${corAlvo.s}%, ${corAlvo.l}%)`,
             width: faseJogo === 'resultado' ? '50%' : '100%',
             opacity: faseJogo === 'recriacao' ? 0 : 1,
-            // O Segredo: na hora de recriar, ela fica flutuando para a outra nascer no mesmo lugar
             position: faseJogo === 'recriacao' ? 'absolute' : 'relative',
             borderWidth: faseJogo === 'recriacao' ? '0px' : '6px',
             overflow: 'hidden'
@@ -117,7 +118,6 @@ function CoresJogo({ setTelaAtual }) {
             backgroundColor: `hsl(${corAtual.h}, ${corAtual.s}%, ${corAtual.l}%)`,
             width: faseJogo === 'resultado' ? '50%' : '100%',
             opacity: (faseJogo === 'memorizacao' || faseJogo === 'preparacao') ? 0 : 1,
-            // Flutuando (escondida) enquanto você memoriza
             position: (faseJogo === 'memorizacao' || faseJogo === 'preparacao') ? 'absolute' : 'relative',
             borderWidth: (faseJogo === 'memorizacao' || faseJogo === 'preparacao') ? '0px' : '6px',
             overflow: 'hidden'
@@ -129,27 +129,28 @@ function CoresJogo({ setTelaAtual }) {
 
         {/* CONTROLES DESLIZANTES HSL COM FUNDO DINÂMICO */}
         {faseJogo === 'recriacao' && (
-          <div className="page-transition" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px', padding: '16px 0' }}>
+          /* Ajuste 3: Diminuímos o gap de 20px para 12px e os paddings verticais */
+          <div className="page-transition" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px', padding: '8px 0' }}>
             
             <div className="slider-group">
               <label style={{ color: '#ffffff', fontFamily: '"Press Start 2P", cursive', fontSize: '10px' }}>COR (MATIZ)</label>
               <input type="range" min="0" max="360" value={corAtual.h} 
                      onChange={(e) => setCorAtual({ ...corAtual, h: Number(e.target.value) })}
-                     className="retro-slider" style={{ background: fundoHue }} />
+                     className="retro-slider" style={{ background: fundoHue, marginTop: '4px' }} />
             </div>
 
             <div className="slider-group">
               <label style={{ color: '#ffffff', fontFamily: '"Press Start 2P", cursive', fontSize: '10px' }}>SATURAÇÃO</label>
               <input type="range" min="0" max="100" value={corAtual.s} 
                      onChange={(e) => setCorAtual({ ...corAtual, s: Number(e.target.value) })}
-                     className="retro-slider" style={{ background: fundoSaturacao }} />
+                     className="retro-slider" style={{ background: fundoSaturacao, marginTop: '4px' }} />
             </div>
 
             <div className="slider-group">
               <label style={{ color: '#ffffff', fontFamily: '"Press Start 2P", cursive', fontSize: '10px' }}>BRILHO (LUZ)</label>
               <input type="range" min="0" max="100" value={corAtual.l} 
                      onChange={(e) => setCorAtual({ ...corAtual, l: Number(e.target.value) })}
-                     className="retro-slider" style={{ background: fundoBrilho }} />
+                     className="retro-slider" style={{ background: fundoBrilho, marginTop: '4px' }} />
             </div>
             
           </div>
@@ -158,7 +159,8 @@ function CoresJogo({ setTelaAtual }) {
       </div> {/* FECHA RECHEIO DINÂMICO */}
 
       {/* RODAPÉ FIXO DE AÇÕES */}
-      <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
+      {/* Ajuste 4: Trocamos o paddingBottom de 24px para 12px para colar o botão mais no fundo */}
+      <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '12px', width: '100%' }}>
         
         {faseJogo === 'preparacao' && (
           <button className="game-card start-btn" onClick={iniciarMemorizacao} style={{ backgroundColor: '#00ccff' }}>
@@ -179,7 +181,7 @@ function CoresJogo({ setTelaAtual }) {
         )}
 
         {faseJogo !== 'memorizacao' && (
-           <button className="back-btn" onClick={() => setTelaAtual('home')} style={{ marginTop: '8px' }}>VOLTAR AO MENU</button>
+           <button className="back-btn" onClick={() => setTelaAtual('home')} style={{ marginTop: '8px', padding: '8px' }}>VOLTAR AO MENU</button>
         )}
 
       </div>
