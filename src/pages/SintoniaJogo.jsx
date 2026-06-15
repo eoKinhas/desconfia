@@ -5,7 +5,8 @@ import logoImg from '../assets/logo.png';
 function SintoniaJogo({ setTelaAtual }) {
   const [faseJogo, setFaseJogo] = useState('preparacao');
   const [anguloPonteiro, setAnguloPonteiro] = useState(90);
-  const [alvoCentro, setAlvoCentro] = useState(120); 
+  const [alvoCentro, setAlvoCentro] = useState(() => Math.floor(Math.random() * 161) + 10); 
+  
   const [extremoEsquerdo, setExtremoEsquerdo] = useState('');
   const [extremoDireito, setExtremoDireito] = useState('');
   const [historicoRodadas, setHistoricoRodadas] = useState([]);
@@ -31,7 +32,8 @@ function SintoniaJogo({ setTelaAtual }) {
   };
 
   const proximaRodada = () => {
-    const novoAlvo = Math.floor(Math.random() * 130) + 25;
+    // Sorteia entre 10 e 170 graus (chegando muito mais perto dos extremos!)
+    const novoAlvo = Math.floor(Math.random() * 161) + 10;
     setAlvoCentro(novoAlvo);
     setAnguloPonteiro(90);
     setPontosUltimaRodada(null);
@@ -39,7 +41,8 @@ function SintoniaJogo({ setTelaAtual }) {
   };
 
   const resetarJogo = () => {
-    const novoAlvo = Math.floor(Math.random() * 130) + 25;
+    // Mesma fórmula aplicada ao resetar o jogo
+    const novoAlvo = Math.floor(Math.random() * 161) + 10;
     setAlvoCentro(novoAlvo);
     setAnguloPonteiro(90);
     setExtremoEsquerdo('');
@@ -154,7 +157,7 @@ function SintoniaJogo({ setTelaAtual }) {
            </button>
          )}
 
-        {/* Botões de Ação Secundários (Resetar e Sair lado a lado para economizar espaço no rodapé) */}
+        {/* Botões de Ação Secundários */}
         <div style={{ display: 'flex', gap: '16px', width: '100%', marginTop: '8px' }}>
           <button className="back-btn" onClick={() => setConfirmacao('resetar')} style={{ flex: 1 }}>RESETAR</button>
           <button className="back-btn" onClick={() => setConfirmacao('sair')} style={{ flex: 1 }}>SAIR</button>
