@@ -5,7 +5,7 @@ import logoImg from '../assets/logo.png';
 function SintoniaJogo({ setTelaAtual }) {
   const [faseJogo, setFaseJogo] = useState('preparacao');
   const [anguloPonteiro, setAnguloPonteiro] = useState(90);
-  const [alvoCentro, setAlvoCentro] = useState(() => Math.floor(Math.random() * 161) + 10); 
+  const [alvoCentro, setAlvoCentro] = useState(() => Math.floor(Math.random() * 181)); 
   
   const [extremoEsquerdo, setExtremoEsquerdo] = useState('');
   const [extremoDireito, setExtremoDireito] = useState('');
@@ -32,8 +32,7 @@ function SintoniaJogo({ setTelaAtual }) {
   };
 
   const proximaRodada = () => {
-    // Sorteia entre 10 e 170 graus (chegando muito mais perto dos extremos!)
-    const novoAlvo = Math.floor(Math.random() * 161) + 10;
+    const novoAlvo = Math.floor(Math.random() * 181);
     setAlvoCentro(novoAlvo);
     setAnguloPonteiro(90);
     setPontosUltimaRodada(null);
@@ -41,8 +40,7 @@ function SintoniaJogo({ setTelaAtual }) {
   };
 
   const resetarJogo = () => {
-    // Mesma fórmula aplicada ao resetar o jogo
-    const novoAlvo = Math.floor(Math.random() * 161) + 10;
+    const novoAlvo = Math.floor(Math.random() * 181);
     setAlvoCentro(novoAlvo);
     setAnguloPonteiro(90);
     setExtremoEsquerdo('');
@@ -136,7 +134,6 @@ function SintoniaJogo({ setTelaAtual }) {
         </div>
       </div>
 
-      {/* Botões de ação do jogo sempre visíveis */}
       <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
          
          {faseJogo === 'preparacao' && (
@@ -157,14 +154,12 @@ function SintoniaJogo({ setTelaAtual }) {
            </button>
          )}
 
-        {/* Botões de Ação Secundários */}
         <div style={{ display: 'flex', gap: '16px', width: '100%', marginTop: '8px' }}>
           <button className="back-btn" onClick={() => setConfirmacao('resetar')} style={{ flex: 1 }}>RESETAR</button>
           <button className="back-btn" onClick={() => setConfirmacao('sair')} style={{ flex: 1 }}>SAIR</button>
         </div>
       </div>
 
-      {/* JANELA DE CONFIRMAÇÃO (MODAL) */}
       {confirmacao && createPortal(
         <div className="modal-overlay">
           <div className="modal-box">
