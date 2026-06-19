@@ -38,7 +38,7 @@ export const bancoDePalavras = [
     id: 4,
     tema: "Lugar",
     palavras: [
-      "Restaurante",
+      "Restaurante de Massas",
       "Lanchonete",
       "Pizzaria",
       "Hamburgueria",
@@ -53,7 +53,7 @@ export const bancoDePalavras = [
     palavras: [
       "Escola",
       "Faculdade",
-      "Universidade",
+      "Mestrado",
       "Curso Técnico",
       "Biblioteca",
       "Creche"
@@ -93,9 +93,9 @@ export const bancoDePalavras = [
       "Academia",
       "Piscina",
       "Quadra",
-      "Campo",
-      "Pista de Atletismo",
-      "Ginásio"
+      "Futebol",
+      "Atletismo",
+      "Corrida"
     ]
   },
   { 
@@ -106,6 +106,7 @@ export const bancoDePalavras = [
       "Cachoeira",
       "Montanha",
       "Parque",
+      "Trilha",
       "Lago",
       "Mirante"
     ]
@@ -117,9 +118,8 @@ export const bancoDePalavras = [
     palavras: [
       "Hotel",
       "Pousada",
-      "Resort",
-      "Hostel",
-      "Camping",
+      "Pesqueiro",
+      "Sítio",
       "Chalé"
     ]
   },
@@ -129,10 +129,10 @@ export const bancoDePalavras = [
     tema: "Lugar",
     palavras: [
       "Bar",
-      "Pub",
+      "Boate",
       "Balada",
       "Karaokê",
-      "Casa de Shows",
+      "Roda de Pagode",
       "Tabacaria"
     ]
   },
@@ -143,10 +143,11 @@ export const bancoDePalavras = [
     palavras: [
       "Prefeitura",
       "Fórum",
+      "Zona",
+      "Casa de Apostas",
       "Cartório",
       "Delegacia",
-      "Correios",
-      "Câmara Municipal"
+      "Correios"
     ]
   },
 
@@ -155,7 +156,7 @@ export const bancoDePalavras = [
     tema: "Lugar",
     palavras: [
       "Farmácia",
-      "Drogaria",
+      "Academia",
       "Perfumaria",
       "Loja de Cosméticos",
       "Ótica",
@@ -167,11 +168,11 @@ export const bancoDePalavras = [
     tema: "Lugar",
     palavras: [
       "Banco",
-      "Cooperativa de Crédito",
       "Casa Lotérica",
       "Caixa Eletrônico",
-      "Agência Financeira",
-      "Corretora"
+      "Corretora",
+      "Casa de Doações",
+      "Casa de Apostas"
     ]
   },
   {
@@ -181,9 +182,8 @@ export const bancoDePalavras = [
       "Pet Shop",
       "Clínica Veterinária",
       "Canil",
-      "Hotel para Pets",
-      "Aquário",
-      "Loja de Ração"
+      "Fauna",
+      "Aquário"
     ]
   },
   {
@@ -192,9 +192,9 @@ export const bancoDePalavras = [
     palavras: [
       "Salão de Beleza",
       "Barbearia",
-      "Esmalteria",
-      "Clínica de Estética",
       "Spa",
+      "Esmalteria",
+      "Ótica",
       "Centro de Massagem"
     ]
   },
@@ -203,10 +203,10 @@ export const bancoDePalavras = [
     tema: "Lugar",
     palavras: [
       "Loja de Roupas",
-      "Loja de Calçados",
-      "Loja de Acessórios",
+      "Loja de Sapatos",
+      "Mercearia",
+      "Camelô",
       "Brechó",
-      "Boutique",
       "Alfaiataria"
     ]
   },
@@ -219,7 +219,8 @@ export const bancoDePalavras = [
       "Boliche",
       "Fliperama",
       "Escape Room",
-      "Kartódromo"
+      "Casa de Apostas",
+      "Sinuca"
     ]
   },
   {
@@ -227,11 +228,10 @@ export const bancoDePalavras = [
     tema: "Lugar",
     palavras: [
       "Igreja",
-      "Templo",
+      "Maçonaria",
       "Capela",
-      "Mosteiro",
-      "Santuário",
-      "Centro Espírita"
+      "Seita",
+      "Santuário"
     ]
   },
   {
@@ -256,6 +256,7 @@ export const bancoDePalavras = [
       "Cama", 
       "Colchão", 
       "Rede",
+      "Tapete",
       "Pufe"
     ] 
   },
@@ -266,7 +267,8 @@ export const bancoDePalavras = [
       "Televisão", 
       "Celular", 
       "Tablet", 
-      "Monitor", 
+      "Monitor",
+      "Projetor",
       "Notebook"
     ] 
   },
@@ -289,6 +291,7 @@ export const bancoDePalavras = [
       "Geladeira",
       "Freezer",
       "Frigobar",
+      "Stanley",
       "Adega",
       "Cooler",
       "Isopor"
@@ -301,6 +304,7 @@ export const bancoDePalavras = [
       "Mesa",
       "Escrivaninha",
       "Bancada",
+      "Pufe",
       "Aparador",
       "Penteadeira",
       "Mesa de Centro"
@@ -310,7 +314,7 @@ export const bancoDePalavras = [
     id: 26,
     tema: "Casa",
     palavras: [
-      "Guarda-Roupa",
+      "Prateleira",
       "Cômoda",
       "Armário",
       "Cristaleira",
@@ -336,8 +340,9 @@ export const bancoDePalavras = [
     palavras: [
       "Prato",
       "Tigela",
+      "Copo",
       "Travessa",
-      "Bowl",
+      "Tábua",
       "Pires",
       "Bandeja"
     ]
@@ -360,9 +365,9 @@ export const bancoDePalavras = [
     palavras: [
       "Chuveiro",
       "Torneira",
-      "Ducha",
-      "Misturador",
-      "Registro",
+      "Peneira",
+      "Vaso Sanitário",
+      "Bebedouro",
       "Filtro"
     ]
   },
@@ -373,8 +378,7 @@ export const bancoDePalavras = [
       "Lâmpada",
       "Abajur",
       "Luminária",
-      "Refletor",
-      "Arandela",
+      "Tela",
       "Lustre"
     ]
   },
@@ -385,7 +389,7 @@ export const bancoDePalavras = [
       "Porta",
       "Janela",
       "Portão",
-      "Veneziana",
+      "Cortina",
       "Basculante",
       "Persiana"
     ]
@@ -399,7 +403,7 @@ export const bancoDePalavras = [
       "Climatizador",
       "Aquecedor",
       "Umidificador",
-      "Purificador de Ar"
+      "Panela de Pressão"
     ]
   },
 
@@ -409,6 +413,7 @@ export const bancoDePalavras = [
     palavras: [
       "Espelho",
       "Quadro",
+      "Câmera",
       "Relógio de Parede",
       "Vaso Decorativo",
       "Escultura",
@@ -433,6 +438,7 @@ export const bancoDePalavras = [
     palavras: [
       "Cabide",
       "Gancho",
+      "Máquina de Lavar",
       "Prendedor de Roupa",
       "Cesto de Roupas",
       "Varal",
@@ -445,10 +451,10 @@ export const bancoDePalavras = [
     palavras: [
       "Panela",
       "Frigideira",
-      "Caçarola",
+      "Torradeira",
       "Panela de Pressão",
-      "Assadeira",
-      "Wok"
+      "Micro-ondas",
+      "Air Fryer"
     ]
   },
   {

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import logoImg from '../assets/logo.png';
+import { bancoDeDuvidas } from '../data/duvidasImpostor';
+
+// Puxa todos os temas únicos do banco de dados
+const temasDisponiveis = [...new Set(bancoDeDuvidas.map(item => item.tema))];
 
 function DuvidaRegras({ setTelaAtual }) {
   const [qtdImpostores, setQtdImpostores] = useState(1);
   const [jogadoresCadastrados, setJogadoresCadastrados] = useState([]);
   const [jogadoresSelecionados, setJogadoresSelecionados] = useState([]);
+  const [temasSelecionados, setTemasSelecionados] = useState(temasDisponiveis);
   const [alerta, setAlerta] = useState(null);
 
   useEffect(() => {
@@ -22,6 +27,11 @@ function DuvidaRegras({ setTelaAtual }) {
       // Restaura os jogadores que estavam jogando e a quantidade de infiltrados
       setJogadoresSelecionados(setup.jogadores || []);
       setQtdImpostores(setup.impostores || 1);
+      
+      // Restaura os temas selecionados (se houver). Se não, deixa todos marcados.
+      if (setup.temas && setup.temas.length > 0) {
+        setTemasSelecionados(setup.temas);
+      }
     } else {
       // Se for a primeira vez jogando (sem memória), começa zerado
       setJogadoresSelecionados([]);
@@ -33,6 +43,14 @@ function DuvidaRegras({ setTelaAtual }) {
       setJogadoresSelecionados(jogadoresSelecionados.filter(jId => jId !== id));
     } else {
       setJogadoresSelecionados([...jogadoresSelecionados, id]);
+    }
+  };
+
+  const toggleTema = (tema) => {
+    if (temasSelecionados.includes(tema)) {
+      setTemasSelecionados(temasSelecionados.filter(t => t !== tema));
+    } else {
+      setTemasSelecionados([...temasSelecionados, tema]);
     }
   };
 
@@ -60,10 +78,16 @@ function DuvidaRegras({ setTelaAtual }) {
       setAlerta(`O NÚMERO DE INFILTRADOS DEVE SER NO MÁXIMO A METADE DOS JOGADORES (${maxImpostores}).`);
       return;
     }
+
+    if (temasSelecionados.length === 0) {
+      setAlerta("SELECIONE PELO MENOS UM TEMA PARA JOGAR!");
+      return;
+    }
     
     const setupPartida = {
       jogadores: jogadoresSelecionados,
-      impostores: qtdImpostores
+      impostores: qtdImpostores,
+      temas: temasSelecionados
     };
     // Salva na memória exclusiva do jogo Dúvida
     localStorage.setItem('duvida_setup_atual', JSON.stringify(setupPartida));
@@ -97,6 +121,26 @@ function DuvidaRegras({ setTelaAtual }) {
           </div>
         </div>
 
+        {/* SELEÇÃO DE TEMAS */}
+        <div className="game-status-box" style={{ padding: '16px', width: '100%' }}>
+          <p className="status-text" style={{ marginBottom: '12px', color: '#fff' }}>TEMAS DA PARTIDA:</p>
+          <div className="avatar-selector" style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
+            {temasDisponiveis.map(tema => {
+              const selecionado = temasSelecionados.includes(tema);
+              return (
+                <div 
+                  key={tema} 
+                  className={`player-chip ${selecionado ? 'selecionado' : ''}`}
+                  onClick={() => toggleTema(tema)}
+                  style={{ padding: '8px 12px', borderRadius: '8px', height: 'auto', flexDirection: 'row' }}
+                >
+                  <span style={{ fontSize: '10px' }}>{tema.toUpperCase()}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="game-status-box" style={{ padding: '16px', width: '100%', marginBottom: '16px' }}>
           <p className="status-text" style={{ marginBottom: '12px', color: '#fff' }}>QUEM VAI JOGAR?</p>
           
@@ -121,7 +165,7 @@ function DuvidaRegras({ setTelaAtual }) {
           )}
         </div>
 
-      </div> {/* FECHA RECHEIO DINÂMICO */}
+      </div>
 
       {/* RODAPÉ FIXO */}
       <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>

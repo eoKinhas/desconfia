@@ -42,19 +42,30 @@ function CoresJogo({ setTelaAtual }) {
   };
 
   const revelarResultado = () => {
-    // Matiz (Hue) é um círculo. Precisamos da distância mais curta!
+    // Distância bruta de cada controle
     const diffH = Math.min(Math.abs(corAlvo.h - corAtual.h), 360 - Math.abs(corAlvo.h - corAtual.h));
     const diffS = Math.abs(corAlvo.s - corAtual.s);
     const diffL = Math.abs(corAlvo.l - corAtual.l);
     
-    // Calcula o percentual de erro de cada barra
-    const erroH = diffH / 180;
+    // Se a cor alvo é quase preta (L perto de 0), quase branca (L perto de 100) ou cinza (S perto de 0), o matiz importa menos.
+    const fatorLuz = 1 - (Math.abs(50 - corAlvo.l) / 50); 
+    const fatorSaturacao = corAlvo.s / 100;
+    const pesoH = fatorLuz * fatorSaturacao;
+    
+    // Normalizamos os erros para a escala decimal (0 a 1)
+    const erroH = (diffH / 180) * pesoH; 
     const erroS = diffS / 100;
     const erroL = diffL / 100;
     
-    // Média de precisão
-    const erroTotal = (erroH + erroS + erroL) / 3;
-    const precisao = Math.max(0, Math.floor((1 - erroTotal) * 100));
+    // Distância Euclidiana (Teorema de Pitágoras em 3D)
+    const distancia = Math.sqrt(erroH * erroH + erroS * erroS + erroL * erroL);
+    
+    // A distância máxima teórica do algoritmo (raiz quadrada de 1^2 + 1^2 + 1^2)
+    const maxDistancia = Math.sqrt(3); 
+    
+    // Cálculo final da precisão
+    const precisaoDecimal = 1 - (distancia / maxDistancia);
+    const precisao = Math.max(0, Math.floor(precisaoDecimal * 100));
     
     setPontuacao(precisao);
     setFaseJogo('resultado');
@@ -64,14 +75,13 @@ function CoresJogo({ setTelaAtual }) {
     setFaseJogo('preparacao');
   };
 
-  // ESTILOS DINÂMICOS DAS BARRAS (Atualizam em tempo real!)
+  // ESTILOS DINÂMICOS DAS BARRAS
   const fundoHue = 'linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)';
   const fundoSaturacao = `linear-gradient(to right, hsl(${corAtual.h}, 0%, ${corAtual.l}%), hsl(${corAtual.h}, 100%, ${corAtual.l}%))`;
   const fundoBrilho = `linear-gradient(to right, hsl(${corAtual.h}, ${corAtual.s}%, 0%), hsl(${corAtual.h}, ${corAtual.s}%, 50%), hsl(${corAtual.h}, ${corAtual.s}%, 100%))`;
 
   return (
     <div className="rules-screen page-transition" style={{ height: '100%', paddingBottom: '0' }}>
-      {/* Ajuste 1: Diminuimos o gap e o padding inferior do container principal para sobrar mais espaço */}
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '8px', gap: '12px' }}>
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" style={{ marginBottom: '0px' }} />
@@ -95,7 +105,6 @@ function CoresJogo({ setTelaAtual }) {
           gap: faseJogo === 'resultado' ? '16px' : '0px',
           margin: '0',
           position: 'relative',
-          /* Ajuste 2: Altura reduzida de 360px para 240px */
           height: '300px', 
           transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
         }}>
@@ -129,7 +138,6 @@ function CoresJogo({ setTelaAtual }) {
 
         {/* CONTROLES DESLIZANTES HSL COM FUNDO DINÂMICO */}
         {faseJogo === 'recriacao' && (
-          /* Ajuste 3: Diminuímos o gap de 20px para 12px e os paddings verticais */
           <div className="page-transition" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px', padding: '8px 0' }}>
             
             <div className="slider-group">
@@ -156,10 +164,9 @@ function CoresJogo({ setTelaAtual }) {
           </div>
         )}
 
-      </div> {/* FECHA RECHEIO DINÂMICO */}
+      </div>
 
       {/* RODAPÉ FIXO DE AÇÕES */}
-      {/* Ajuste 4: Trocamos o paddingBottom de 24px para 12px para colar o botão mais no fundo */}
       <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '12px', width: '100%' }}>
         
         {faseJogo === 'preparacao' && (

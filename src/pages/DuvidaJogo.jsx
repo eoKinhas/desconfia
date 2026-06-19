@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { bancoDeDuvidas } from '../data/duvidasImpostor'; 
 import logoImg from '../assets/logo.png';
 
-// Função profissional para embaralhamento 100% aleatório (Fisher-Yates)
+// Função de embaralhamento
 const embaralharArray = (arrayOriginal) => {
   const array = [...arrayOriginal];
   for (let i = array.length - 1; i > 0; i--) {
@@ -29,14 +29,19 @@ function DuvidaJogo({ setTelaAtual }) {
     const todosCadastrados = JSON.parse(localStorage.getItem('desconfia_jogadores'));
     const selecionados = todosCadastrados.filter(j => setup.jogadores.includes(j.id));
     
-    // 1. Sorteio JUSTO dos infiltrados usando Fisher-Yates
+    // Sorteio os infiltrados usando Fisher-Yates
     const shuffledJogadores = embaralharArray(selecionados);
     const impostores = shuffledJogadores.slice(0, setup.impostores);
     
-    // 2. Sorteia um bloco aleatório de perguntas
-    const blocoSorteado = bancoDeDuvidas[Math.floor(Math.random() * bancoDeDuvidas.length)];
+    // Filtra os blocos baseados nos temas selecionados
+    // Pega os temas do setup, ou se for uma partida antiga sem temas salvos, usa todos.
+    const temasFiltrados = setup.temas || bancoDeDuvidas.map(b => b.tema);
+    const blocosDisponiveis = bancoDeDuvidas.filter(bloco => temasFiltrados.includes(bloco.tema));
     
-    // 3. Sorteio JUSTO das perguntas dentro do bloco
+    // Sorteia um bloco aleatório entre os disponíveis
+    const blocoSorteado = blocosDisponiveis[Math.floor(Math.random() * blocosDisponiveis.length)];
+    
+    // Sorteia as perguntas dentro do bloco
     const perguntasEmbaralhadas = embaralharArray(blocoSorteado.perguntas);
     
     const perguntaParaInocentes = perguntasEmbaralhadas[0];
@@ -44,7 +49,7 @@ function DuvidaJogo({ setTelaAtual }) {
 
     setPerguntaOriginal(perguntaParaInocentes); 
     
-    // 4. Distribui as perguntas para os jogadores
+    // Distribui as perguntas para os jogadores
     const jogadoresComFuncao = selecionados.map(j => {
       const eImpostor = impostores.find(i => i.id === j.id) !== undefined;
       
