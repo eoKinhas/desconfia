@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import logoImg from '../assets/logo.png';
 import { bancoDeDuvidas } from '../data/duvidasImpostor';
+import Jogadores from '../components/Jogadores';
 
 // Puxa todos os temas únicos do banco de dados
 const temasDisponiveis = [...new Set(bancoDeDuvidas.map(item => item.tema))];
@@ -12,12 +13,15 @@ function DuvidaRegras({ setTelaAtual }) {
   const [jogadoresSelecionados, setJogadoresSelecionados] = useState([]);
   const [temasSelecionados, setTemasSelecionados] = useState(temasDisponiveis);
   const [alerta, setAlerta] = useState(null);
+  const [ordemJogadores, setOrdemJogadores] = useState([]);
 
   useEffect(() => {
     // Carrega todos os jogadores que foram cadastrados na Engrenagem
     const jogadoresSalvos = localStorage.getItem('desconfia_jogadores');
+    let listaCadastrados = [];
     if (jogadoresSalvos) {
-      setJogadoresCadastrados(JSON.parse(jogadoresSalvos));
+      listaCadastrados = JSON.parse(jogadoresSalvos);
+      setJogadoresCadastrados(listaCadastrados);
     }
 
     // Busca as configurações da última partida de Dúvida
@@ -27,14 +31,22 @@ function DuvidaRegras({ setTelaAtual }) {
       // Restaura os jogadores que estavam jogando e a quantidade de infiltrados
       setJogadoresSelecionados(setup.jogadores || []);
       setQtdImpostores(setup.impostores || 1);
-      
+
       // Restaura os temas selecionados (se houver). Se não, deixa todos marcados.
       if (setup.temas && setup.temas.length > 0) {
         setTemasSelecionados(setup.temas);
       }
+
+      // Restaura a ordem salva; se não houver, usa a ordem dos cadastrados
+      if (setup.ordem && setup.ordem.length > 0) {
+        setOrdemJogadores(setup.ordem);
+      } else {
+        setOrdemJogadores(listaCadastrados.map(j => j.id));
+      }
     } else {
       // Se for a primeira vez jogando (sem memória), começa zerado
       setJogadoresSelecionados([]);
+      setOrdemJogadores(listaCadastrados.map(j => j.id));
     }
   }, []);
 
@@ -86,6 +98,7 @@ function DuvidaRegras({ setTelaAtual }) {
     
     const setupPartida = {
       jogadores: jogadoresSelecionados,
+      ordem: ordemJogadores,
       impostores: qtdImpostores,
       temas: temasSelecionados
     };
@@ -141,29 +154,14 @@ function DuvidaRegras({ setTelaAtual }) {
           </div>
         </div>
 
-        <div className="game-status-box" style={{ padding: '16px', width: '100%', marginBottom: '16px' }}>
-          <p className="status-text" style={{ marginBottom: '12px', color: '#fff' }}>QUEM VAI JOGAR?</p>
-          
-          {jogadoresCadastrados.length === 0 ? (
-            <p style={{ fontSize: '10px', color: '#ff0055', fontFamily: '"Press Start 2P", cursive' }}>Vá na engrenagem e cadastre jogadores!</p>
-          ) : (
-            <div className="avatar-selector">
-              {jogadoresCadastrados.map(jogador => {
-                const selecionado = jogadoresSelecionados.includes(jogador.id);
-                return (
-                  <div 
-                    key={jogador.id} 
-                    className={`player-chip ${selecionado ? 'selecionado' : ''}`}
-                    onClick={() => toggleJogador(jogador.id)}
-                  >
-                    <span style={{ fontSize: '16px' }}>{jogador.avatar}</span>
-                    <span>{jogador.nome}</span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        <Jogadores
+          jogadoresCadastrados={jogadoresCadastrados}
+          ordem={ordemJogadores}
+          selecionados={jogadoresSelecionados}
+          onChangeOrdem={setOrdemJogadores}
+          onToggleSelecionado={toggleJogador}
+          titulo="QUEM VAI JOGAR?"
+        />
 
       </div>
 

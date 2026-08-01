@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import logoImg from '../assets/logo.png';
 import { bancoDePalavras } from '../data/palavrasImpostor';
+import Jogadores from '../components/Jogadores';
 
 const temasDisponiveis = [...new Set(bancoDePalavras.map(item => item.tema))];
 
@@ -12,12 +13,15 @@ function ImpostorRegras({ setTelaAtual }) {
   const [jogadoresSelecionados, setJogadoresSelecionados] = useState([]);
   const [temasSelecionados, setTemasSelecionados] = useState(temasDisponiveis);
   const [alerta, setAlerta] = useState(null);
+  const [ordemJogadores, setOrdemJogadores] = useState([]);
 
   useEffect(() => {
     // Carrega todos os jogadores cadastrados no app
     const salvos = localStorage.getItem('desconfia_jogadores');
+    let listaCadastrados = [];
     if (salvos) {
-      setJogadoresCadastrados(JSON.parse(salvos));
+      listaCadastrados = JSON.parse(salvos);
+      setJogadoresCadastrados(listaCadastrados);
     }
 
     // Busca as configurações da última partida de Impostor
@@ -28,14 +32,22 @@ function ImpostorRegras({ setTelaAtual }) {
       setJogadoresSelecionados(setup.jogadores || []);
       setQtdImpostores(setup.impostores || 1);
       setModoJogo(setup.modo || 'padrao');
-      
+
       // Se houver temas salvos, restaura eles. Caso contrário, mantém todos selecionados.
       if (setup.temas && setup.temas.length > 0) {
         setTemasSelecionados(setup.temas);
       }
+
+      // Restaura a ordem salva; se não houver (ou se houver jogador novo cadastrado depois), usa a ordem dos cadastrados
+      if (setup.ordem && setup.ordem.length > 0) {
+        setOrdemJogadores(setup.ordem);
+      } else {
+        setOrdemJogadores(listaCadastrados.map(j => j.id));
+      }
     } else {
       // Se for a primeira vez jogando, começa zerado
       setJogadoresSelecionados([]);
+      setOrdemJogadores(listaCadastrados.map(j => j.id));
     }
   }, []);
 
@@ -88,8 +100,8 @@ function ImpostorRegras({ setTelaAtual }) {
     
     const setupPartida = {
       jogadores: jogadoresSelecionados,
+      ordem: ordemJogadores,
       impostores: qtdImpostores,
-      modo: modoJogo,
       temas: temasSelecionados
     };
     localStorage.setItem('impostor_setup_atual', JSON.stringify(setupPartida));
@@ -169,29 +181,14 @@ function ImpostorRegras({ setTelaAtual }) {
         </div>
 
         {/* SELEÇÃO DOS JOGADORES PRESENTES */}
-        <div className="game-status-box" style={{ padding: '16px', marginBottom: '16px' }}>
-          <p className="status-text" style={{ marginBottom: '12px', color: '#fff' }}>QUEM VAI JOGAR?</p>
-          
-          {jogadoresCadastrados.length === 0 ? (
-            <p style={{ fontSize: '10px', color: '#ff0055', fontFamily: '"Press Start 2P", cursive' }}>Vá na engrenagem e cadastre jogadores!</p>
-          ) : (
-            <div className="avatar-selector">
-              {jogadoresCadastrados.map(jogador => {
-                const selecionado = jogadoresSelecionados.includes(jogador.id);
-                return (
-                  <div 
-                    key={jogador.id} 
-                    className={`player-chip ${selecionado ? 'selecionado' : ''}`}
-                    onClick={() => toggleJogador(jogador.id)}
-                  >
-                    <span style={{ fontSize: '16px' }}>{jogador.avatar}</span>
-                    <span>{jogador.nome}</span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        <Jogadores
+          jogadoresCadastrados={jogadoresCadastrados}
+          ordem={ordemJogadores}
+          selecionados={jogadoresSelecionados}
+          onChangeOrdem={setOrdemJogadores}
+          onToggleSelecionado={toggleJogador}
+          titulo="QUEM VAI JOGAR?"
+        />
 
       </div> {/* FECHA RECHEIO DINÂMICO */}
 

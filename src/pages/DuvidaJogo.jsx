@@ -27,7 +27,12 @@ function DuvidaJogo({ setTelaAtual }) {
 
   useEffect(() => {
     const todosCadastrados = JSON.parse(localStorage.getItem('desconfia_jogadores'));
-    const selecionados = todosCadastrados.filter(j => setup.jogadores.includes(j.id));
+    const ordemFiltrada = (setup.ordem && setup.ordem.length > 0 ? setup.ordem : setup.jogadores)
+      .filter(id => setup.jogadores.includes(id));
+
+    const selecionados = ordemFiltrada
+      .map(id => todosCadastrados.find(j => j.id === id))
+      .filter(Boolean);
     
     // Sorteio os infiltrados usando Fisher-Yates
     const shuffledJogadores = embaralharArray(selecionados);
