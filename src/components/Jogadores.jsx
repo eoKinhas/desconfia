@@ -26,8 +26,8 @@ function ItemArrastavel({ id, jogador, index, ativo, onToggle }) {
 
   return (
     <div
-      ref={setNodeRef}
-      style={{
+    ref={setNodeRef}
+    style={{
         ...style,
         display: 'flex',
         alignItems: 'center',
@@ -36,23 +36,24 @@ function ItemArrastavel({ id, jogador, index, ativo, onToggle }) {
         border: ativo ? '1px solid #00ccff' : '1px solid transparent',
         padding: '8px 12px',
         borderRadius: '8px',
-      }}
-      {...attributes}
+        fontFamily: '"Press Start 2P", cursive',
+    }}
+    {...attributes}
     >
-      <div
+    <div
         onClick={() => onToggle(id)}
         style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, cursor: 'pointer' }}
-      >
-        <span style={{ fontSize: '10px' }}>
-          {ativo ? `${index + 1}. ` : ''}{jogador?.avatar} {jogador?.nome}
+    >
+        <span style={{ fontSize: '10px', fontFamily: '"Press Start 2P", cursive' }}>
+        {ativo ? `${index + 1}. ` : ''}{jogador?.avatar} {jogador?.nome}
         </span>
-      </div>
-      <span
+    </div>
+    <span
         {...listeners}
         style={{ fontSize: '16px', color: '#888', padding: '4px 8px', touchAction: 'none', cursor: 'grab' }}
-      >
+    >
         ≡
-      </span>
+    </span>
     </div>
   );
 }
