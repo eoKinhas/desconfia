@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { bancoDeDuvidas } from '../data/duvidasImpostor'; 
-import logoImg from '../assets/logo.png';
+import { bancoDeDuvidas } from '../../data/duvidasImpostor'; 
+import logoImg from '../../assets/logo.png';
 
 // Função de embaralhamento
 const embaralharArray = (arrayOriginal) => {
@@ -12,7 +12,7 @@ const embaralharArray = (arrayOriginal) => {
   return array;
 };
 
-function DuvidaJogo({ setTelaAtual }) {
+function PerguntaJogo({ setTelaAtual }) {
   const [setup, setSetup] = useState(JSON.parse(localStorage.getItem('duvida_setup_atual')));
   const [jogadores, setJogadores] = useState([]);
   const [indiceJogador, setIndiceJogador] = useState(0);
@@ -219,4 +219,4 @@ function DuvidaJogo({ setTelaAtual }) {
   );
 }
 
-export default DuvidaJogo;
+export default PerguntaJogo;

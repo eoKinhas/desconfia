@@ -1,5 +1,5 @@
 import React from 'react';
-import logoImg from '../assets/logo.png';
+import logoImg from '../../assets/logo.png';
 
 function SintoniaRegras({ setTelaAtual }) {
   return (

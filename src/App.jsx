@@ -2,17 +2,19 @@ import { useState } from 'react';
 import './App.css';
 
 import Home from './pages/Home';
-import SintoniaRegras from './pages/SintoniaRegras';
-import SintoniaJogo from './pages/SintoniaJogo';
+import SintoniaRegras from './pages/Sintonia/SintoniaRegras';
+import SintoniaJogo from './pages/Sintonia/SintoniaJogo';
 import Configuracoes from './pages/Configuracoes';
-import ImpostorRegras from './pages/ImpostorRegras';
-import ImpostorJogo from './pages/ImpostorJogo';
-import ImpostorVotacao from './pages/ImpostorVotacao';
-import DuvidaRegras from './pages/DuvidaRegras';
-import DuvidaJogo from './pages/DuvidaJogo';
-import DuvidaVotacao from './pages/DuvidaVotacao';
-import CoresRegras from './pages/CoresRegras';
-import CoresJogo from './pages/CoresJogo';
+import ImpostorRegras from './pages/Impostor/ImpostorRegras';
+import ImpostorJogo from './pages/Impostor/ImpostorJogo';
+import ImpostorVotacao from './pages/Impostor/ImpostorVotacao';
+import PerguntaRegras from './pages/Perguntas/PerguntaRegras';
+import PerguntaJogo from './pages/Perguntas/PeguntaJogo';
+import PerguntaVotacao from './pages/Perguntas/PerguntaVotacao';
+import CoresRegras from './pages/Cores/CoresRegras';
+import CoresJogo from './pages/Cores/CoresJogo';
+import DicasJogo from './pages/Dicas/DicasJogo';
+import DicasRegras from './pages/Dicas/DicasRegras';
 
 function App() {
   const [telaAtual, setTelaAtual] = useState('home');
@@ -34,11 +36,14 @@ function App() {
       {telaAtual === 'impostor-regras' && <ImpostorRegras setTelaAtual={setTelaAtual} />}
       {telaAtual === 'impostor-jogo' && <ImpostorJogo setTelaAtual={setTelaAtual} />}
       {telaAtual === 'impostor-votacao' && <ImpostorVotacao setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'duvida-regras' && <DuvidaRegras setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'duvida-jogo' && <DuvidaJogo setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'duvida-votacao' && <DuvidaVotacao setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'duvida-regras' && <PerguntaRegras setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'duvida-jogo' && <PerguntaJogo setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'duvida-votacao' && <PerguntaVotacao setTelaAtual={setTelaAtual} />}
       {telaAtual === 'cores-regras' && <CoresRegras setTelaAtual={setTelaAtual} />}
       {telaAtual === 'cores-jogo' && <CoresJogo setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'dicas-jogo' && <DicasJogo setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'dicas-regras' && <DicasRegras setTelaAtual={setTelaAtual} />}
+
       
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { bancoDePalavras } from '../data/palavrasImpostor';
-import logoImg from '../assets/logo.png';
+import { bancoDePalavras } from '../../data/palavrasImpostor';
+import logoImg from '../../assets/logo.png';
 
 // Função de embaralhamento 100% aleatório (Fisher-Yates)
 const embaralharArray = (arrayOriginal) => {

@@ -29,12 +29,17 @@ function Home({ setTelaAtual }) {
 
             <div className="game-card" onClick={() => setTelaAtual('duvida-regras')}>
               <div className="card-image-placeholder">🎭</div>
-              <h2>Dúvidas</h2>
+              <h2>Perguntas</h2>
             </div>
 
             <div className="game-card" onClick={() => setTelaAtual('cores-regras')}>
               <div className="card-image-placeholder">🎨</div>
               <h2>Cores</h2>
+            </div>
+
+            <div className="game-card" onClick={() => setTelaAtual('dicas-regras')}>
+              <div className="card-image-placeholder">💡</div>
+              <h2>Dicas</h2>
             </div>
           </div>
         </main>

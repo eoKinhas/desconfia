@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import logoImg from '../assets/logo.png';
+import logoImg from '../../assets/logo.png';
 
-function DuvidaVotacao({ setTelaAtual }) {
+function PerguntaVotacao({ setTelaAtual }) {
   const [jogadores, setJogadores] = useState([]);
   const [setup, setSetup] = useState({});
   const [votos, setVotos] = useState({});
@@ -139,4 +139,4 @@ function DuvidaVotacao({ setTelaAtual }) {
   );
 }
 
-export default DuvidaVotacao;
+export default PerguntaVotacao;

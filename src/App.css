@@ -776,13 +776,17 @@ body {
   transition: width 0.1s linear;
 }
 
-.reveal-box { text-align: center; }
+.reveal-box { 
+  text-align: 
+  center; 
+}
+
 .reveal-text { 
   font-family: 'Press Start 2P', cursive; 
   font-size: 24px; 
-  color: #ff0055; 
+  color: #00ccff;
   margin: 20px 0;
-  text-shadow: 4px 4px 0px #fff;
+  text-shadow: 2px 2px 0px #fff;
 }
 
 /* ========================================= */
@@ -815,4 +819,20 @@ body {
   flex-direction: column;
   gap: 8px;
   width: 100%;
+}
+
+@keyframes flashGold {
+  0% { opacity: 0; transform: scale(0.92); }
+  60% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.status-text-acerto {
+  animation: flashGold 0.4s ease-out;
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+  60% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }

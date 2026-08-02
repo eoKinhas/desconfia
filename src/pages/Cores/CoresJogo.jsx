@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logoImg from '../assets/logo.png';
+import logoImg from '../../assets/logo.png';
 
 // Geração criptográfica usando HSL
 const gerarCorAleatoria = () => {
