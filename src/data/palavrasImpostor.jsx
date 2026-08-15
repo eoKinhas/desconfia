@@ -182,7 +182,7 @@ export const bancoDePalavras = [
       "Pet Shop",
       "Clínica Veterinária",
       "Canil",
-      "Fauna",
+      "Floresta",
       "Aquário"
     ]
   },
@@ -203,7 +203,7 @@ export const bancoDePalavras = [
     tema: "Lugar",
     palavras: [
       "Loja de Roupas",
-      "Loja de Sapatos",
+      "Conveniência",
       "Mercearia",
       "Camelô",
       "Brechó",
@@ -291,7 +291,7 @@ export const bancoDePalavras = [
       "Geladeira",
       "Freezer",
       "Frigobar",
-      "Stanley",
+      "Copo Stanley",
       "Adega",
       "Cooler",
       "Isopor"
@@ -301,12 +301,11 @@ export const bancoDePalavras = [
     id: 25,
     tema: "Casa",
     palavras: [
-      "Mesa",
+      "Mesa de Jantar",
       "Escrivaninha",
       "Bancada",
       "Pufe",
       "Aparador",
-      "Penteadeira",
       "Mesa de Centro"
     ]
   },
@@ -365,10 +364,10 @@ export const bancoDePalavras = [
     palavras: [
       "Chuveiro",
       "Torneira",
-      "Peneira",
+      "Pia",
       "Vaso Sanitário",
       "Bebedouro",
-      "Filtro"
+      "Filtro de Água"
     ]
   },
   {
@@ -378,7 +377,8 @@ export const bancoDePalavras = [
       "Lâmpada",
       "Abajur",
       "Luminária",
-      "Tela",
+      "LED",
+      "Fitas RGB",
       "Lustre"
     ]
   },
@@ -390,7 +390,6 @@ export const bancoDePalavras = [
       "Janela",
       "Portão",
       "Cortina",
-      "Basculante",
       "Persiana"
     ]
   },
@@ -398,11 +397,11 @@ export const bancoDePalavras = [
     id: 33,
     tema: "Casa",
     palavras: [
-      "Ventilador",
+      "Ventilador de Teto",
       "Ar-Condicionado",
-      "Climatizador",
       "Aquecedor",
       "Umidificador",
+      "Ventilador de Chão",
       "Panela de Pressão"
     ]
   },
@@ -412,7 +411,7 @@ export const bancoDePalavras = [
     tema: "Casa",
     palavras: [
       "Espelho",
-      "Quadro",
+      "Quadro de Pintura",
       "Câmera",
       "Relógio de Parede",
       "Vaso Decorativo",
@@ -437,19 +436,18 @@ export const bancoDePalavras = [
     tema: "Casa",
     palavras: [
       "Cabide",
-      "Gancho",
       "Máquina de Lavar",
       "Prendedor de Roupa",
       "Cesto de Roupas",
       "Varal",
-      "Organizador"
+      "Secadora"
     ]
   },
   {
     id: 37,
     tema: "Casa",
     palavras: [
-      "Panela",
+      "Panela Elétrica",
       "Frigideira",
       "Torradeira",
       "Panela de Pressão",
@@ -476,9 +474,9 @@ export const bancoDePalavras = [
       "Tomada",
       "Interruptor",
       "Extensão",
-      "Filtro de Linha",
+      "Power Bank",
       "Adaptador",
-      "Disjuntor"
+      "Multímetro"
     ]
   },
   {
@@ -499,10 +497,10 @@ export const bancoDePalavras = [
     palavras: [
       "Cortina",
       "Persiana",
-      "Blackout",
-      "Mosquiteiro",
-      "Toldo",
-      "Véu de Cortina"
+      "Janela",
+      "Porta",
+      "Vitrini",
+      "Fresta"
     ]
   },
   {
@@ -514,7 +512,7 @@ export const bancoDePalavras = [
       "Caixa Organizadora",
       "Balde",
       "Baú",
-      "Compartimento"
+      "Pá de limpeza"
     ]
   },
   {
@@ -998,8 +996,8 @@ export const bancoDePalavras = [
       "Advogado",
       "Promotor",
       "Juiz",
-      "Defensor Público",
-      "Procurador",
+      "Réu",
+      "Fiscal",
       "Delegado"
     ]
   },
@@ -1008,22 +1006,22 @@ export const bancoDePalavras = [
     tema: "Profissão",
     palavras: [
       "Professor",
-      "Coordenador Pedagógico",
+      "Estudante",
       "Diretor Escolar",
-      "Pedagogo",
-      "Tutor",
-      "Orientador Educacional"
+      "Palestrante",
+      "Mestre",
+      "Coach"
     ]
   },
   {
     id: 84,
     tema: "Profissão",
     palavras: [
-      "Engenheiro Civil",
+      "Engenheiro",
       "Arquiteto",
-      "Mestre de Obras",
-      "Técnico em Edificações",
-      "Topógrafo",
+      "Fiscal de Obras",
+      "Pedreiro",
+      "Desenhista Técnico",
       "Designer de Interiores"
     ]
   },
@@ -1032,11 +1030,10 @@ export const bancoDePalavras = [
     tema: "Profissão",
     palavras: [
       "Programador",
-      "Analista de Sistemas",
+      "Analista de Dados",
       "Designer UX",
-      "Cientista de Dados",
-      "Administrador de Redes",
-      "Engenheiro de Software"
+      "Analista de Redes",
+      "Desenvolvedor Sênior"
     ]
   },
   {
@@ -1045,8 +1042,8 @@ export const bancoDePalavras = [
     palavras: [
       "Policial",
       "Bombeiro",
-      "Guarda Municipal",
-      "Agente Penitenciário",
+      "Infração",
+      "Guarda de Balada",
       "Perito Criminal",
       "Militar"
     ]
@@ -1067,7 +1064,7 @@ export const bancoDePalavras = [
     id: 88,
     tema: "Profissão",
     palavras: [
-      "Chef",
+      "Pizzaiolo",
       "Cozinheiro",
       "Confeiteiro",
       "Padeiro",
@@ -1082,9 +1079,9 @@ export const bancoDePalavras = [
       "Jornalista",
       "Apresentador",
       "Repórter",
-      "Radialista",
+      "Humorista",
       "Comentarista",
-      "Âncora"
+      "Programa de TV"
     ]
   },
   {
@@ -1093,9 +1090,9 @@ export const bancoDePalavras = [
     palavras: [
       "Veterinário",
       "Biólogo",
-      "Zootecnista",
+      "Aquarista",
       "Adestrador",
-      "Tratador de Animais",
+      "Pai de Pet",
       "Técnico Veterinário"
     ]
   },
@@ -1107,8 +1104,7 @@ export const bancoDePalavras = [
       "Auditor",
       "Analista Financeiro",
       "Economista",
-      "Consultor Financeiro",
-      "Controller"
+      "Banqueiro"
     ]
   },
   {
@@ -1116,11 +1112,10 @@ export const bancoDePalavras = [
     tema: "Profissão",
     palavras: [
       "Corretor de Imóveis",
-      "Avaliador de Imóveis",
-      "Despachante Imobiliário",
+      "Hospede",
+      "Morador",
       "Síndico",
-      "Administrador de Condomínio",
-      "Incorporador"
+      "Turista"
     ]
   },
   {
@@ -1140,8 +1135,8 @@ export const bancoDePalavras = [
     tema: "Profissão",
     palavras: [
       "Motorista de Ônibus",
-      "Motorista de Aplicativo",
-      "Taxista",
+      "Uber",
+      "Delivery",
       "Caminhoneiro",
       "Entregador",
       "Motoboy"
@@ -1151,10 +1146,10 @@ export const bancoDePalavras = [
     id: 95,
     tema: "Profissão",
     palavras: [
-      "Farmacêutico",
-      "Biomédico",
-      "Técnico de Laboratório",
-      "Radiologista",
+      "Remédio",
+      "Cientista",
+      "Médico",
+      "Psicólogo",
       "Fonoaudiólogo",
       "Terapeuta Ocupacional"
     ]
@@ -1165,7 +1160,7 @@ export const bancoDePalavras = [
     palavras: [
       "Fotógrafo",
       "Cinegrafista",
-      "Editor de Vídeo",
+      "Modelo",
       "Designer Gráfico",
       "Ilustrador",
       "Animador"
@@ -1180,7 +1175,7 @@ export const bancoDePalavras = [
       "Diretor",
       "Roteirista",
       "Produtor",
-      "Cenógrafo"
+      "Teatro"
     ]
   },
   {
@@ -1203,8 +1198,7 @@ export const bancoDePalavras = [
       "Representante Comercial",
       "Gerente de Loja",
       "Caixa",
-      "Atendente",
-      "Promotor de Vendas"
+      "Atendente"
     ]
   },
   {
@@ -1213,10 +1207,21 @@ export const bancoDePalavras = [
     palavras: [
       "Personal Trainer",
       "Professor de Educação Física",
-      "Preparador Físico",
-      "Treinador",
+      "Coach",
+      "Técnico de Equipe",
       "Instrutor de Academia",
-      "Fisiologista Esportivo"
+      "Fisiculturista"
     ]
-  }
+  },
+  {
+    id: 101,
+    tema: "Casa",
+    palavras: [
+      "Cabide",
+      "Gancho",
+      "Prego",
+      "Prendedor de Roupa",
+      "Parafuso"
+    ]
+  },
 ];

@@ -681,6 +681,7 @@ body {
 }
 
 .player-avatar {
+  font-family: 'Press Start 2P', cursive;
   font-size: 20px;
 }
 
@@ -828,6 +829,8 @@ body {
 }
 
 .status-text-acerto {
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.6;
   animation: flashGold 0.4s ease-out;
 }
 

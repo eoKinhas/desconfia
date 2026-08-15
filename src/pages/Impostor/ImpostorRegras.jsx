@@ -102,7 +102,8 @@ function ImpostorRegras({ setTelaAtual }) {
       jogadores: jogadoresSelecionados,
       ordem: ordemJogadores,
       impostores: qtdImpostores,
-      temas: temasSelecionados
+      temas: temasSelecionados,
+      modo: modoJogo
     };
     localStorage.setItem('impostor_setup_atual', JSON.stringify(setupPartida));
     

@@ -161,7 +161,7 @@ function ImpostorJogo({ setTelaAtual }) {
             </div>
             
             <div style={{ fontSize: '10px', color: '#888888', marginTop: '16px' }}>
-              (SEGURE PARA REVELAR)
+              (SEGURE PARA VER)
             </div>
             
             <div className="progress-bar" style={{ width: `${progresso}%` }}></div>

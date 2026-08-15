@@ -34,30 +34,55 @@ function PerguntaJogo({ setTelaAtual }) {
       .map(id => todosCadastrados.find(j => j.id === id))
       .filter(Boolean);
     
-    // Sorteio os infiltrados usando Fisher-Yates
+    // Sorteia os infiltrados
     const shuffledJogadores = embaralharArray(selecionados);
     const impostores = shuffledJogadores.slice(0, setup.impostores);
     
-    // Filtra os blocos baseados nos temas selecionados
-    // Pega os temas do setup, ou se for uma partida antiga sem temas salvos, usa todos.
+    // Filtra os blocos pelos temas escolhidos
     const temasFiltrados = setup.temas || bancoDeDuvidas.map(b => b.tema);
     const blocosDisponiveis = bancoDeDuvidas.filter(bloco => temasFiltrados.includes(bloco.tema));
     
-    // Sorteia um bloco aleatório entre os disponíveis
+    // Sorteia um bloco/tema aleatório
     const blocoSorteado = blocosDisponiveis[Math.floor(Math.random() * blocosDisponiveis.length)];
     
-    // Sorteia as perguntas dentro do bloco
-    const perguntasEmbaralhadas = embaralharArray(blocoSorteado.perguntas);
-    
+    // Verificar Perguntas repetidas
+    const LIMITE_RODADAS_COOLDOWN = 8;
+
+    let historicoRodadas = JSON.parse(localStorage.getItem('duvida_historico_recente') || '[]');
+    let perguntasBloqueadas = historicoRodadas.flat();
+
+    let perguntasDisponiveis = blocoSorteado.perguntas.filter(p => !perguntasBloqueadas.includes(p));
+
+    // Se o tema tiver poucas perguntas e faltar opções (< 2),
+    // ele vai soltando as rodadas mais antigas até liberar pelo menos 2 perguntas
+    while (perguntasDisponiveis.length < 2 && historicoRodadas.length > 0) {
+      historicoRodadas.shift(); // Libera a rodada mais antiga
+      perguntasBloqueadas = historicoRodadas.flat();
+      perguntasDisponiveis = blocoSorteado.perguntas.filter(p => !perguntasBloqueadas.includes(p));
+    }
+
+    // Se por acaso o banco tiver menos de 2 perguntas no total, usa o bloco todo como emergência
+    if (perguntasDisponiveis.length < 2) {
+      perguntasDisponiveis = [...blocoSorteado.perguntas];
+    }
+
+    // Embaralha as perguntas disponíveis
+    const perguntasEmbaralhadas = embaralharArray(perguntasDisponiveis);
     const perguntaParaInocentes = perguntasEmbaralhadas[0];
     const perguntaParaInfiltrados = perguntasEmbaralhadas[1];
 
+    // Adiciona a rodada atual ao histórico e limita a 8 rodadas
+    const novoHistorico = [...historicoRodadas, [perguntaParaInocentes, perguntaParaInfiltrados]];
+    if (novoHistorico.length > LIMITE_RODADAS_COOLDOWN) {
+      novoHistorico.shift(); // Remove a 1ª rodada (que agora completou 8 partidas de descanso)
+    }
+    localStorage.setItem('duvida_historico_recente', JSON.stringify(novoHistorico));
+
     setPerguntaOriginal(perguntaParaInocentes); 
     
-    // Distribui as perguntas para os jogadores
+    // Distribuição para os jogadores
     const jogadoresComFuncao = selecionados.map(j => {
       const eImpostor = impostores.find(i => i.id === j.id) !== undefined;
-      
       return {
         ...j,
         eImpostor,

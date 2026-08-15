@@ -6,7 +6,10 @@ export const bancoDeDuvidas = [
       "Quantas vezes você já bebeu água hoje?",
       "Quantas pessoas você já beijou na vida?",
       "Quantas vezes você escovou os dentes hoje?",
+      "Quantas embaixadinhas é capaz de fazer sem deixar a bola cair?",
+      "Quantas prêmios já ganhou?",
       "Quantas comidas diferentes você já comeu hoje?",
+      "Quantas portas você já abriu hoje?",
       "Quantas selfies você tirou no último mês?",
       "Quantos alarmes você costuma colocar para acordar?",
       "Quantas vezes você já mudou de foto de perfil este ano?",
@@ -27,8 +30,7 @@ export const bancoDeDuvidas = [
       "Quantas contas de streaming você utiliza?",
       "Quantos aniversários você participou este ano?",
       "Quantos empregos você já teve?",
-      "Quantos casamentos você já foi na vida?",
-      "Quantas portas você já abriu hoje?"
+      "Quantos casamentos você já foi na vida?"
     ]
   },
   { 
@@ -84,7 +86,7 @@ export const bancoDeDuvidas = [
       "Quem desta roda é o mais provável de ficar milionário?",
       "Quem desta roda sobreviveria mais tempo em um apocalipse zumbi?",
       "Quem desta roda tem mais chance de virar famoso na internet?",
-      "Quem desta roda seria o melhor líder?",
+      "Quem desta roda seria o melhor chef de cozinha?",
       "Quem desta roda tem a personalidade mais forte?",
       "Quem desta roda seria o melhor parceiro para abrir uma empresa?",
       "Quem desta roda seria o melhor professor?",
@@ -106,16 +108,18 @@ export const bancoDeDuvidas = [
       "Quanto tempo você leva para terminar uma refeição?",
       "Quanto tempo você ficaria em uma fila antes de desistir?",
       "Quanto tempo você aguentaria ouvindo a mesma música em loop?",
+      "Quanto tempo você demora para escolher o que vai pedir em um aplicativo de comida?",
       "Quanto tempo você levaria para gastar mil reais em um dia?",
       "Quanto tempo você demora para sair da cama depois de acordar?",
       "Quanto tempo você consegue ficar parado sem fazer nada?",
       "Quanto tempo você levaria para desistir de montar um móvel sem manual ou vídeo?",
       "Quanto tempo você consegue ficar sem desbloquear o celular?",
       "Quanto tempo você demora para decidir o que vai comer?",
-      "Quanto tempo você leva para arrumar a cama?",
+      "Quanto tempo você demora para escrever uma mensagem importante?",
+      "Quanto tempo você leva para lavar o banheiro?",
+      "Quanto tempo você leva para escolher uma foto para postar?",
       "Quanto tempo você passa olhando o celular antes de dormir?",
-      "Quanto tempo você passa procurando algo para assistir e sem assistir nada?",
-      "Quanto tempo você conseguiria ficar sem conversar?"
+      "Quanto tempo você costuma passar procurando algo para assistir?"
     ]
   },
 
@@ -127,16 +131,26 @@ export const bancoDeDuvidas = [
       "Quanto tempo você aguentaria ficar sem usar o celular?",
       "Há quanto tempo você não chora assistindo a um filme?",
       "Qual foi o maior tempo que você já ficou acordado sem dormir?",
-      "Qual foi o maior tempo que você já passou sem internet?",
+      "Há quanto tempo você não corta o cabelo?",
       "Há quanto tempo você usa o mesmo número de telefone?",
       "Quanto tempo você conseguiria ficar sem redes sociais?",
-      "Quanto tempo você conseguiria viver sem pedir comida por aplicativo?",
-      "Há quanto tempo você conhece seu amigo mais antigo?",
+      "De quanto em quanto tempo você costuma pedir comida por aplicativo?",
+      "Há quanto tempo você não pede comida pelo iFood?",
+      "Há quanto tempo você não toma um sorvete?",
+      "Há quanto tempo você não vai a um show?",
+      "Há quanto tempo você não compra um tênis novo?",
+      "Há quanto tempo você não visita outra cidade?",
+      "De quanto em quanto tempo você costuma comprar roupas?",
+      "De quanto em quanto tempo você costuma sair para comer?",
+      "De quanto em quanto tempo você costuma fazer uma faxina completa?",
+      "De quanto em quanto tempo você costuma trocar de celular?",
+      "De quanto em quanto tempo você costuma viajar?",
+      "De quanto em quanto tempo você costuma cortar o cabelo?",
+      "Há quanto tempo você não vai ao cinema?",
       "Quanto tempo você sobreviveria em um apocalipse zumbi?",
-      "Quanto tempo você conseguiria ficar sem falar com ninguém?",
       "Quanto tempo você manteria um segredo muito importante?",
       "Quanto tempo você levaria para gastar todo o dinheiro da sua conta?",
-      "Quanto tempo você conseguiria ficar sem assistir vídeos?"
+      "Quanto tempo, em média, você fica sem assistir vídeos no Youtube?"
     ]
   },
   {
@@ -217,28 +231,11 @@ export const bancoDeDuvidas = [
       "Qual situação te faria fingir que não conhece seus amigos?",
       "O que te dá mais nojo no dia a dia?",
       "Qual foi a situação que te deu mais frio na barriga recentemente?",
-      "O que você tem pavor que aconteça com você em público?"
+      "O que você tem medo que aconteça com você em público?"
     ]
   },
   {
     id: 9,
-    tema: "Segredos e Passado",
-    perguntas: [
-      "Qual foi a maior mentira que você contou?",
-      "Qual é o seu maior arrependimento da época de escola?",
-      "Qual foi a maior travessura que você fez quando criança?",
-      "Qual era a sua maior obsessão quando criança?",
-      "Qual foi a coisa mais estranha em que você acreditava quando era pequeno?",
-      "Qual foi o castigo mais marcante que você já recebeu?",
-      "Qual foi a maior confusão em que você se meteu na escola?",
-      "Qual foi a melhor desculpa que você usou para não fazer uma tarefa?",
-      "Qual foi a maior desculpa que você inventou para cancelar um compromisso?",
-      "Qual foi a situação mais ridícula em que você já se encontrou?",
-      "Qual foi o motivo da sua última crise de riso?"
-    ]
-  },
-  {
-    id: 10,
     tema: "Pessoas Marcantes",
     perguntas: [
       "Quem foi a pessoa mais engraçada que você já conheceu?",
