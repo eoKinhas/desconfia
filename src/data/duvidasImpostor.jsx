@@ -122,7 +122,6 @@ export const bancoDeDuvidas = [
       "Quanto tempo você costuma passar procurando algo para assistir?"
     ]
   },
-
   {
     id: 5,
     tema: "Longos Períodos",
@@ -210,32 +209,32 @@ export const bancoDeDuvidas = [
       "Qual seria a compra mais absurda que você faria se ganhasse na loteria?",
     ]
   },
+  // {
+  //   id: 8,
+  //   tema: "Medos e Sensações",
+  //   perguntas: [
+  //     "Qual é o seu maior medo irracional?",
+  //     "O que te dá mais agonia de assistir?",
+  //     "Qual cheiro você menos suporta?",
+  //     "Qual textura você acha mais desagradável?",
+  //     "O que faz você perder a vontade de comer imediatamente?",
+  //     "Qual som te irrita mais do que deveria?",
+  //     "Qual coisa pequena te causa um medo desproporcional?",
+  //     "Qual seria seu pior pesadelo acontecendo na vida real?",
+  //     "O que você jamais faria mesmo se te pagassem?",
+  //     "Qual situação te deixa mais desconfortável em público?",
+  //     "Qual hábito de outra pessoa mais te incomoda?",
+  //     "Qual situação te faria querer desaparecer imediatamente?",
+  //     "Qual foi sua maior vergonha recente?",
+  //     "Qual situação social você evita ao máximo?",
+  //     "Qual situação te faria fingir que não conhece seus amigos?",
+  //     "O que te dá mais nojo no dia a dia?",
+  //     "Qual foi a situação que te deu mais frio na barriga recentemente?",
+  //     "O que você tem medo que aconteça com você em público?"
+  //   ]
+  // },
   {
     id: 8,
-    tema: "Medos e Sensações",
-    perguntas: [
-      "Qual é o seu maior medo irracional?",
-      "O que te dá mais agonia de assistir?",
-      "Qual cheiro você menos suporta?",
-      "Qual textura você acha mais desagradável?",
-      "O que faz você perder a vontade de comer imediatamente?",
-      "Qual som te irrita mais do que deveria?",
-      "Qual coisa pequena te causa um medo desproporcional?",
-      "Qual seria seu pior pesadelo acontecendo na vida real?",
-      "O que você jamais faria mesmo se te pagassem?",
-      "Qual situação te deixa mais desconfortável em público?",
-      "Qual hábito de outra pessoa mais te incomoda?",
-      "Qual situação te faria querer desaparecer imediatamente?",
-      "Qual foi sua maior vergonha recente?",
-      "Qual situação social você evita ao máximo?",
-      "Qual situação te faria fingir que não conhece seus amigos?",
-      "O que te dá mais nojo no dia a dia?",
-      "Qual foi a situação que te deu mais frio na barriga recentemente?",
-      "O que você tem medo que aconteça com você em público?"
-    ]
-  },
-  {
-    id: 9,
     tema: "Pessoas Marcantes",
     perguntas: [
       "Quem foi a pessoa mais engraçada que você já conheceu?",

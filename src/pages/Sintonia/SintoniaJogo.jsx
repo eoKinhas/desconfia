@@ -144,13 +144,13 @@ function SintoniaJogo({ setTelaAtual }) {
 
          {faseJogo === 'adivinhacao' && (
            <button className="game-card start-btn" onClick={revelarAlvo} style={{ backgroundColor: '#00ccff' }}>
-             <h2 style={{ color: '#000000', fontSize: '14px' }}>REVELAR ALVO</h2>
+             <h2 style={{ color: '#ffffff', fontSize: '14px' }}>REVELAR ALVO</h2>
            </button>
          )}
 
          {faseJogo === 'resultado' && (
            <button className="game-card start-btn" onClick={proximaRodada} style={{ backgroundColor: '#ffffff' }}>
-             <h2 style={{ color: '#000000', fontSize: '14px' }}>PRÓXIMA RODADA</h2>
+             <h2 style={{ color: '#00ccff', fontSize: '14px' }}>PRÓXIMA RODADA</h2>
            </button>
          )}
 

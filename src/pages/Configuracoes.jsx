@@ -73,7 +73,7 @@ function Configuracoes({ setTelaAtual }) {
             onClick={adicionarJogador} 
             style={{ backgroundColor: '#00ccff', marginTop: '16px', padding: '12px' }}
           >
-            <h2 style={{ color: '#000000', fontSize: '12px' }}>+ ADICIONAR</h2>
+            <h2 style={{ color: '#ffffff', fontSize: '12px' }}>+ ADICIONAR</h2>
           </button>
         </div>
 

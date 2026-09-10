@@ -82,7 +82,7 @@ function DicasJogo({ setTelaAtual }) {
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px', minHeight: 0 }}>
 
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
-        <h1 className="title rules-title">DICAS</h1>
+        <h1 className="reveal-text" style={{ fontSize: '35px', color: '#ffea00', fontFamily: '"Press Start 2P", cursive', marginBottom: '2px' }}>DICAS</h1>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', width: '100%' }}>
           <div className="game-status-box" style={{ maxWidth: '70%', textAlign: 'center', padding: '12px 16px' }}>

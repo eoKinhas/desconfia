@@ -15,6 +15,11 @@ import CoresRegras from './pages/Cores/CoresRegras';
 import CoresJogo from './pages/Cores/CoresJogo';
 import DicasJogo from './pages/Dicas/DicasJogo';
 import DicasRegras from './pages/Dicas/DicasRegras';
+import TierListRegras from './pages/TierList/TierListRegras';
+import TierListJogo from './pages/TierList/TierListJogo';
+import TierListDebate from './pages/TierList/TierListDebate';
+import TierListTwist from './pages/TierList/TierListTwist';
+import TierListResultado from './pages/TierList/TierListResultado';
 
 function App() {
   const [telaAtual, setTelaAtual] = useState('home');
@@ -43,7 +48,11 @@ function App() {
       {telaAtual === 'cores-jogo' && <CoresJogo setTelaAtual={setTelaAtual} />}
       {telaAtual === 'dicas-jogo' && <DicasJogo setTelaAtual={setTelaAtual} />}
       {telaAtual === 'dicas-regras' && <DicasRegras setTelaAtual={setTelaAtual} />}
-
+      {telaAtual === 'tierlist-regras' && <TierListRegras setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'tierlist-jogo' && <TierListJogo setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'tierlist-debate' && <TierListDebate setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'tierlist-twist' && <TierListTwist setTelaAtual={setTelaAtual} />}
+      {telaAtual === 'tierlist-resultado' && <TierListResultado setTelaAtual={setTelaAtual} />}
       
     </div>
   );

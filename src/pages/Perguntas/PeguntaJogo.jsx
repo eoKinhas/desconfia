@@ -142,40 +142,51 @@ function PerguntaJogo({ setTelaAtual }) {
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px' }}>
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
-        <h1 className="title rules-title" style={{ marginBottom: '0px' }}>DÚVIDA</h1>
+        <h1 className="reveal-text" style={{ fontSize: '35px', color: '#9d00ff', fontFamily: '"Press Start 2P", cursive', marginBottom: '2px' }}>PERGUNTAS</h1>
         
         {faseJogo === 'passando_celular' ? (
           <>
-            <div className="game-status-box" style={{ width: '100%', textAlign: 'center' }}>
-              <p className="status-text" style={{ fontSize: '12px'}}>PASSE O CELULAR PARA:</p>
-            </div>
+            <p className="menor-text">
+              PASSE O CELULAR PARA:
+            </p>
 
-            {!revelado ? (
-              <button 
-                className="hold-btn"
-                onTouchStart={iniciarPressao} onTouchEnd={pararPressao} onTouchCancel={pararPressao}
-                onMouseDown={iniciarPressao} onMouseUp={pararPressao} onMouseLeave={pararPressao} 
-                style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '12px' }}
-              >
-                <div style={{ fontSize: '72px' }}>{jogadorAtual.avatar}</div>
-                <div style={{ fontSize: '16px', color: '#00ccff', fontFamily: '"Press Start 2P", cursive', width: '100%', padding: '0 16px', boxSizing: 'border-box', wordWrap: 'break-word', textAlign: 'center', lineHeight: '1.4' }}>
-                  {jogadorAtual.nome}
-                </div>
-                <div style={{ fontSize: '10px', color: '#888888', marginTop: '16px' }}>(SEGURE PARA LER)</div>
-                <div className="progress-bar" style={{ width: `${progresso}%` }}></div>
-              </button>
-            ) : (
-              <div className="reveal-box" style={{ marginTop: '0px', width: '100%' }}>
-                <div style={{ fontSize: '56px', marginBottom: '16px' }}>{jogadorAtual.avatar}</div>
-                <p className="status-text" style={{ marginTop: '24px'}}>SUA PERGUNTA É:</p>
-                
-                <div className="rules-box" style={{ marginTop: '16px', padding: '24px', backgroundColor: '#111', border: '1px solid #333' }}>
-                  <p style={{ fontSize: '16px', color: '#ffffff', lineHeight: '1.6', textAlign: 'center', fontWeight: 'bold' }}>
+            <div 
+              className={`hold-card ${progresso > 0 && !revelado ? 'pressionando' : ''} ${revelado ? 'revelado' : ''}`}
+              onTouchStart={!revelado ? iniciarPressao : undefined}
+              onTouchEnd={!revelado ? pararPressao : undefined}
+              onTouchCancel={!revelado ? pararPressao : undefined}
+              onMouseDown={!revelado ? iniciarPressao : undefined}
+              onMouseUp={!revelado ? pararPressao : undefined}
+              onMouseLeave={!revelado ? pararPressao : undefined}
+            >
+              {!revelado && (
+                <div 
+                  className={`hold-energy-fill ${progresso > 0 ? 'com-borda' : ''}`}
+                  style={{ height: `${progresso}%` }}
+                />
+              )}
+
+              <div className="avatar-circle-frame">
+                <span className="avatar-emoji-centered">{jogadorAtual.avatar}</span>
+              </div>
+
+              <div className="hold-player-name">
+                {jogadorAtual.nome}
+              </div>
+
+              {!revelado ? (
+                <span className={`hold-status-text ${progresso > 0 ? 'ativo' : ''}`}>
+                  {progresso > 0 ? `CARREGANDO... ${progresso}%` : '▶ SEGURE PARA LER ◀'}
+                </span>
+              ) : (
+                <>
+                  <span className="card-pergunta-label">SUA PERGUNTA É:</span>
+                  <p className="card-pergunta-texto">
                     {jogadorAtual.perguntaExibida}
                   </p>
-                </div>
-              </div>
-            )}
+                </>
+              )}
+            </div>
           </>
         ) : (
           <>
@@ -215,7 +226,7 @@ function PerguntaJogo({ setTelaAtual }) {
             onClick={proximoJogador} 
             style={{ backgroundColor: podeAvancar ? '#00ccff' : '#555555', opacity: podeAvancar ? 1 : 0.5, transition: 'all 0.3s' }}
           >
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>OK, ENTENDI</h2>
+            <h2 style={{ color: '#ffffff', fontSize: '14px' }}>OK, ENTENDI</h2>
           </button>
         )}
 
@@ -225,7 +236,7 @@ function PerguntaJogo({ setTelaAtual }) {
             onClick={() => setPerguntaFinalRevelada(true)} 
             style={{ backgroundColor: '#00ffaa' }}
           >
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>REVELAR PERGUNTA</h2>
+            <h2 style={{ color: '#ffffff', fontSize: '14px' }}>REVELAR PERGUNTA</h2>
           </button>
         )}
 

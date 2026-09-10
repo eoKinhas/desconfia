@@ -115,7 +115,7 @@ function ImpostorRegras({ setTelaAtual }) {
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px' }}>
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
-        <h1 className="title rules-title" style={{ marginBottom: '8px' }}>IMPOSTOR</h1>
+        <h1 className="reveal-text" style={{ fontSize: '35px', color: '#ff003c', fontFamily: '"Press Start 2P", cursive', marginBottom: '2px' }}>IMPOSTOR</h1>
 
         {/* CAIXA DE REGRAS */}
         <div className="rules-box">

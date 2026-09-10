@@ -171,19 +171,19 @@ function CoresJogo({ setTelaAtual }) {
         
         {faseJogo === 'preparacao' && (
           <button className="game-card start-btn" onClick={iniciarMemorizacao} style={{ backgroundColor: '#00ccff' }}>
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>VER A COR (5s)</h2>
+            <h2 style={{ color: '#fffdfd', fontSize: '14px' }}>VER A COR (5s)</h2>
           </button>
         )}
 
         {faseJogo === 'recriacao' && (
           <button className="game-card start-btn" onClick={revelarResultado} style={{ backgroundColor: '#00ffaa' }}>
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>COMPARAR CORES</h2>
+            <h2 style={{ color: '#ffffff', fontSize: '14px' }}>COMPARAR CORES</h2>
           </button>
         )}
 
         {faseJogo === 'resultado' && (
           <button className="game-card start-btn" onClick={proximaRodada} style={{ backgroundColor: '#ffcc00' }}>
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>PRÓXIMA RODADA</h2>
+            <h2 style={{ color: '#ffffff', fontSize: '14px' }}>PRÓXIMA RODADA</h2>
           </button>
         )}
 

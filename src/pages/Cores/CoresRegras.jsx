@@ -7,7 +7,27 @@ function CoresRegras({ setTelaAtual }) {
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px' }}>
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
-        <h1 className="title rules-title" style={{ marginBottom: '0px' }}>CORES</h1>
+        <h1 
+          className="reveal-text" 
+          style={{ 
+            fontSize: '35px', 
+            fontFamily: '"Press Start 2P", cursive', 
+            marginBottom: '2px',
+            background: 'linear-gradient(135deg, #fbff00 10%, #00ff66 55%, #00ccff 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            color: 'transparent',
+            textShadow: 'none',
+            filter: 'drop-shadow(3px 3px 0px #ffffff)',
+            lineHeight: '1.3',
+            paddingTop: '8px',
+            paddingBottom: '4px',
+            display: 'inline-block'
+          }}
+        >
+          CORES
+        </h1>
 
         {/* CAIXA DE REGRAS */}
         <div className="rules-box" style={{ width: '100%' }}>
@@ -26,7 +46,7 @@ function CoresRegras({ setTelaAtual }) {
           onClick={() => setTelaAtual('cores-jogo')}
           style={{ backgroundColor: '#00ccff' }}
         >
-          <h2 style={{ color: '#000000', fontSize: '14px' }}>ESTAMOS PRONTOS!</h2>
+          <h2>ESTAMOS PRONTOS!</h2>
         </button>
         <button className="back-btn" onClick={() => setTelaAtual('home')}>VOLTAR AO MENU</button>
       </div>

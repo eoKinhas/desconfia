@@ -46,7 +46,7 @@ function ImpostorVotacao({ setTelaAtual }) {
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '16px' }}>
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
-        <h1 className="title rules-title" style={{ fontSize: '24px', marginBottom: '0px' }}>Votação</h1>
+        <h1 className="reveal-text" style={{ fontSize: '35px', color: '#ff003c', fontFamily: '"Press Start 2P", cursive', marginBottom: '2px' }}>VOTAÇÃO</h1>
 
         <div className="game-status-box" style={{ padding: '16px', width: '100%' }}>
            <p className="status-text" style={{ color: '#ffcc00' }}>DISCUTAM E ACUSEM!</p>
@@ -111,7 +111,7 @@ function ImpostorVotacao({ setTelaAtual }) {
             onClick={() => setRevelado(true)}
             style={{ backgroundColor: '#ffcc00' }}
           >
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>REVELAR IMPOSTOR</h2>
+            <h2 style={{ color: '#fdfafa', fontSize: '14px' }}>REVELAR IMPOSTOR</h2>
           </button>
         ) : (
           <div style={{ display: 'flex', gap: '16px', width: '100%' }}>
@@ -120,7 +120,7 @@ function ImpostorVotacao({ setTelaAtual }) {
               onClick={() => setTelaAtual('impostor-regras')}
               style={{ backgroundColor: '#00ffaa', flex: 1, padding: '16px 8px' }}
             >
-              <h2 style={{ color: '#000000', fontSize: '12px' }}>JOGAR NOVAMENTE</h2>
+              <h2 style={{ color: '#fefefe', fontSize: '12px' }}>JOGAR NOVAMENTE</h2>
             </button>
             
             <button 
@@ -128,7 +128,7 @@ function ImpostorVotacao({ setTelaAtual }) {
               onClick={() => setTelaAtual('home')}
               style={{ backgroundColor: '#00ccff', flex: 1, padding: '16px 8px' }}
             >
-              <h2 style={{ color: '#000000', fontSize: '12px' }}>SAIR</h2>
+              <h2 style={{ color: '#ffffff', fontSize: '12px' }}>SAIR</h2>
             </button>
           </div>
         )}

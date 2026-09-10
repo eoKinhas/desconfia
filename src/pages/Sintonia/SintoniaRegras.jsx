@@ -8,7 +8,7 @@ function SintoniaRegras({ setTelaAtual }) {
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
         
-        <h1 className="title rules-title" style={{ marginBottom: '16px' }}>SINTONIA</h1>
+        <h1 className="reveal-text" style={{ fontSize: '35px', color: '#00ccff', fontFamily: '"Press Start 2P", cursive', marginBottom: '20px' }}>SINTONIA</h1>
         
         <div className="rules-box">
           <p><strong>REGRAS:</strong></p>

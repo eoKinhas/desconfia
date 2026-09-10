@@ -36,16 +36,14 @@ function ImpostorJogo({ setTelaAtual }) {
 
     // Filtra os blocos baseados nos temas selecionados na tela de regras
     const blocosFiltrados = bancoDePalavras.filter(bloco => setup.temas.includes(bloco.tema));
-    // Se por acaso der erro e vir vazio, usa o banco todo por segurança
     const poolDeBlocos = blocosFiltrados.length > 0 ? blocosFiltrados : bancoDePalavras;
 
-    // Sorteia um bloco aleatório (ex: Bloco 27 de "Casa")
+    // Sorteia um bloco aleatório
     const blocoSorteado = poolDeBlocos[Math.floor(Math.random() * poolDeBlocos.length)];
 
     // Sorteio das palavras dentro do bloco escolhido
     const palavrasEmbaralhadas = embaralharArray(blocoSorteado.palavras);
 
-    // Separa as palavras da rodada
     const palavraParaInocentes = palavrasEmbaralhadas[0];
     const palavraParaImpostor = palavrasEmbaralhadas[1];
 
@@ -54,10 +52,8 @@ function ImpostorJogo({ setTelaAtual }) {
       let palavraExibida = '';
 
       if (eImpostor) {
-        // Se for o modo "similar/camaleão", ele ganha a palavra 2. Se for padrão, ganha "IMPOSTOR"
         palavraExibida = setup.modo === 'similar' ? palavraParaImpostor : 'IMPOSTOR';
       } else {
-        // Os inocentes sempre recebem a palavra 1
         palavraExibida = palavraParaInocentes;
       }
 
@@ -81,9 +77,7 @@ function ImpostorJogo({ setTelaAtual }) {
           clearInterval(timerRef.current);
           timerRef.current = null;
           setRevelado(true);
-          
           setTimeout(() => setPodeAvancar(true), 800); 
-          
           return 100;
         }
         return prev + 20; 
@@ -119,63 +113,71 @@ function ImpostorJogo({ setTelaAtual }) {
 
   return (
     <div className="rules-screen page-transition" style={{ height: '100%', paddingBottom: '0' }}>
-      <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px' }}>
+      <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px' }}>
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" />
-        <h1 className="title rules-title" style={{ marginBottom: '8px' }}>IMPOSTOR</h1>
+        <h1 className="reveal-text" style={{ fontSize: '35px', color: '#ff003c', fontFamily: '"Press Start 2P", cursive', marginBottom: '2px' }}>IMPOSTOR</h1>
         
-        <div className="game-status-box" style={{ width: '100%', textAlign: 'center', marginBottom: '24px' }}>
-          <p className="status-text" style={{ fontSize: '12px'}}>PASSE O CELULAR PARA:</p>
+        {/* TEXTO SOLTO SEM CAIXA */}
+        <p className="menor-text">
+          PASSE O CELULAR PARA:
+        </p>
+
+        {/* CARD UNIFICADO EXPANSÍVEL */}
+        <div 
+          className={`hold-card ${progresso > 0 && !revelado ? 'pressionando' : ''} ${revelado ? 'revelado' : ''}`}
+          onTouchStart={!revelado ? iniciarPressao : undefined}
+          onTouchEnd={!revelado ? pararPressao : undefined}
+          onTouchCancel={!revelado ? pararPressao : undefined}
+          onMouseDown={!revelado ? iniciarPressao : undefined}
+          onMouseUp={!revelado ? pararPressao : undefined}
+          onMouseLeave={!revelado ? pararPressao : undefined}
+        >
+          {/* Efeito de energia no fundo enquanto segura */}
+          {!revelado && (
+            <div 
+              className={`hold-energy-fill ${progresso > 0 ? 'com-borda' : ''}`}
+              style={{ height: `${progresso}%` }}
+            />
+          )}
+
+          {/* Avatar com a moldura circular perfeitamente centralizado */}
+          <div className="avatar-circle-frame">
+            <span className="avatar-emoji-centered">{jogadorAtual.avatar}</span>
+          </div>
+
+          {/* Nome do jogador */}
+          <div className="hold-player-name">
+            {jogadorAtual.nome}
+          </div>
+
+          {/* Alterna entre instrução e a Palavra Revelada */}
+          {!revelado ? (
+            <span className={`hold-status-text ${progresso > 0 ? 'ativo' : ''}`}>
+              {progresso > 0 ? `CARREGANDO... ${progresso}%` : '▶ SEGURE PARA VER ◀'}
+            </span>
+          ) : (
+            <>
+              <span className="card-pergunta-label">SUA PALAVRA É:</span>
+              <p 
+                style={{
+                  fontFamily: '"Press Start 2P", cursive',
+                  fontSize: '24px',
+                  color: jogadorAtual.palavraExibida === 'IMPOSTOR' ? '#ff003c' : '#00ccff',
+                  textShadow: '2px 2px 0px #ffffff',
+                  textAlign: 'center',
+                  wordBreak: 'break-word',
+                  padding: '8px 10px 0 10px',
+                  lineHeight: '1.4'
+                }}
+              >
+                {jogadorAtual.palavraExibida}
+              </p>
+            </>
+          )}
         </div>
 
-        {!revelado ? (
-          <button 
-            className="hold-btn"
-            onTouchStart={iniciarPressao} 
-            onTouchEnd={pararPressao}
-            onTouchCancel={pararPressao}
-            onMouseDown={iniciarPressao} 
-            onMouseUp={pararPressao}
-            onMouseLeave={pararPressao} 
-            style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              justifyContent: 'center', 
-              alignItems: 'center', 
-              gap: '12px' 
-            }}
-          >
-            <div style={{ fontSize: '72px' }}>{jogadorAtual.avatar}</div>
-            <div style={{ 
-              fontSize: '16px', 
-              color: '#00ccff', 
-              fontFamily: '"Press Start 2P", cursive',
-              width: '100%',
-              padding: '0 16px',
-              boxSizing: 'border-box',
-              wordWrap: 'break-word',
-              textAlign: 'center',
-              lineHeight: '1.4'
-            }}>
-              {jogadorAtual.nome}
-            </div>
-            
-            <div style={{ fontSize: '10px', color: '#888888', marginTop: '16px' }}>
-              (SEGURE PARA VER)
-            </div>
-            
-            <div className="progress-bar" style={{ width: `${progresso}%` }}></div>
-          </button>
-        ) : (
-          <div className="reveal-box" style={{ marginTop: '0px' }}>
-            <div style={{ fontSize: '56px', marginBottom: '16px' }}>{jogadorAtual.avatar}</div>
-            
-            <p className="status-text" style={{ marginTop: '24px' }}>SUA PALAVRA É:</p>
-            <h1 className="reveal-text">{jogadorAtual.palavraExibida}</h1>
-          </div>
-        )}
-
-      </div> {/* FECHA RECHEIO DINÂMICO */}
+      </div>
 
       <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
         {revelado && (
@@ -188,7 +190,7 @@ function ImpostorJogo({ setTelaAtual }) {
               transition: 'all 0.3s'
             }}
           >
-            <h2 style={{ color: '#000000', fontSize: '14px' }}>OK, PRÓXIMO</h2>
+            <h2 style={{ color: '#fcfcfc', fontSize: '14px' }}>OK, PRÓXIMO</h2>
           </button>
         )}
       </div>
