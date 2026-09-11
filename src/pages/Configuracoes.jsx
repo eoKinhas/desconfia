@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // Lista de avatares para escolher
 const AVATARES_DISPONIVEIS = ['👽', '🤖', '👾', '👻', '🤠', '🕵️', '🦊', '🐱', '🦖', '🦄'];
 
-function Configuracoes({ setTelaAtual }) {
+function Configuracoes({ setTelaAtual, telaRetorno = 'home' }) {
   // Inicializa o estado já buscando da memória do celular!
   const [jogadores, setJogadores] = useState(() => {
     const jogadoresSalvos = localStorage.getItem('desconfia_jogadores');
@@ -40,7 +40,7 @@ function Configuracoes({ setTelaAtual }) {
     <div className="rules-screen page-transition" style={{ height: '100%', paddingBottom: '0' }}>
       <div style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingBottom: '16px', gap: '24px' }}>
         
-        <h1 className="title rules-title" style={{ fontSize: '28px', marginTop: '16px', marginBottom: '0px' }}>JOGADORES</h1>
+        <h1 className="invert-text">JOGADORES</h1>
 
         {/* CAIXA DE ADICIONAR NOVO JOGADOR */}
         <div className="game-status-box" style={{ padding: '20px', width: '100%' }}>
@@ -93,13 +93,12 @@ function Configuracoes({ setTelaAtual }) {
             ))
           )}
         </div>
-
-      </div> {/* FIM RECHEIO DINÂMICO */}
+      </div>
 
       {/* RODAPÉ FIXO */}
       <div className="action-buttons" style={{ marginTop: 'auto', paddingBottom: '24px', width: '100%' }}>
-        <button className="back-btn" onClick={() => setTelaAtual('home')} style={{ width: '100%' }}>
-          VOLTAR AO MENU
+        <button className="back-btn" onClick={() => setTelaAtual(telaRetorno)} style={{ width: '100%' }}>
+          {telaRetorno === 'home' ? 'VOLTAR AO MENU' : 'VOLTAR AO JOGO'}
         </button>
       </div>
 

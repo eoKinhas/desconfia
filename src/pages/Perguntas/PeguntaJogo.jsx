@@ -146,7 +146,7 @@ function PerguntaJogo({ setTelaAtual }) {
         
         {faseJogo === 'passando_celular' ? (
           <>
-            <p className="menor-text">
+            <p className="menor-text" style={{ color: '#9d00ff' }}>
               PASSE O CELULAR PARA:
             </p>
 

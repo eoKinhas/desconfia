@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logoImg from '../../assets/logo.png';
+import coresImg from '../../assets/cores-icon.png';
 
 // Geração criptográfica usando HSL
 const gerarCorAleatoria = () => {
@@ -14,7 +15,7 @@ const gerarCorAleatoria = () => {
 
 function CoresJogo({ setTelaAtual }) {
   const [faseJogo, setFaseJogo] = useState('preparacao'); // preparacao, memorizacao, recriacao, resultado
-  const [tempoRestante, setTempoRestante] = useState(5);
+  const [tempoRestante, setTempoRestante] = useState(5000);
   
   const [corAlvo, setCorAlvo] = useState({ h: 0, s: 0, l: 0 });
   const [corAtual, setCorAtual] = useState({ h: 180, s: 50, l: 50 });
@@ -23,21 +24,28 @@ function CoresJogo({ setTelaAtual }) {
   // Efeito do Cronômetro
   useEffect(() => {
     let timer;
-    if (faseJogo === 'memorizacao' && tempoRestante > 0) {
+    if (faseJogo === 'memorizacao') {
+      const tempoFinal = Date.now() + 5000;
+
       timer = setInterval(() => {
-        setTempoRestante((prev) => prev - 1);
-      }, 1000);
-    } else if (faseJogo === 'memorizacao' && tempoRestante === 0) {
-      // Começa o jogador em uma posição totalmente aleatória para não dar dicas!
-      setCorAtual(gerarCorAleatoria());
-      setFaseJogo('recriacao');
+        const agora = Date.now();
+        const restante = Math.max(0, tempoFinal - agora);
+
+        setTempoRestante(restante);
+
+        if (restante <= 0) {
+          clearInterval(timer);
+          setCorAtual(gerarCorAleatoria());
+          setFaseJogo('recriacao');
+        }
+      }, 30);
     }
     return () => clearInterval(timer);
-  }, [faseJogo, tempoRestante]);
+  }, [faseJogo]);
 
   const iniciarMemorizacao = () => {
     setCorAlvo(gerarCorAleatoria());
-    setTempoRestante(5);
+    setTempoRestante(5000);
     setFaseJogo('memorizacao');
   };
 
@@ -75,6 +83,15 @@ function CoresJogo({ setTelaAtual }) {
     setFaseJogo('preparacao');
   };
 
+  const formatarCronometro = (msRestantes) => {
+    const totalSegundos = Math.floor(msRestantes / 1000);
+    const centesimos = Math.floor((msRestantes % 1000) / 10);
+
+    const centesimosFormatados = String(centesimos).padStart(2, '0');
+
+    return `${totalSegundos}.${centesimosFormatados}`;
+  };
+
   // ESTILOS DINÂMICOS DAS BARRAS
   const fundoHue = 'linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)';
   const fundoSaturacao = `linear-gradient(to right, hsl(${corAtual.h}, 0%, ${corAtual.l}%), hsl(${corAtual.h}, 100%, ${corAtual.l}%))`;
@@ -86,15 +103,19 @@ function CoresJogo({ setTelaAtual }) {
         
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" style={{ marginBottom: '0px' }} />
         
-        {/* CAIXA DE STATUS SUPERIOR */}
-        <div className="game-status-box" style={{ width: '100%', textAlign: 'center', padding: '10px' }}>
-          <p className="status-text" style={{ fontSize: '10px', color: '#ffcc00' }}>
-            {faseJogo === 'preparacao' && 'PREPARE-SE PARA MEMORIZAR!'}
-            {faseJogo === 'memorizacao' && `GRAVE A COR: ${tempoRestante}s`}
-            {faseJogo === 'recriacao' && 'TENTE RECRIAR A COR!'}
-            {faseJogo === 'resultado' && `PRECISÃO: ${pontuacao}%`}
-          </p>
-        </div>
+        <p className="invert-text" style={{ color: '#ffea00', fontSize: '16px', textAlign: 'center' }}>
+          {faseJogo === 'preparacao' && 'PREPARE-SE PARA MEMORIZAR!'}
+          {faseJogo === 'memorizacao' && (
+            <>
+              <span style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>GRAVE A COR</span>
+              <span style={{ fontSize: '34px', color: '#ffea00', textShadow: '4px 4px 0px #000000' }}>
+                {formatarCronometro(tempoRestante)}s
+              </span>
+            </>
+          )}
+          {faseJogo === 'recriacao' && 'TENTE RECRIAR A COR!'}
+          {faseJogo === 'resultado' && `PRECISÃO: ${pontuacao}%`}
+        </p>
 
         {/* ÁREA DA COR ANIMADA */}
         <div style={{ 
@@ -115,10 +136,14 @@ function CoresJogo({ setTelaAtual }) {
             width: faseJogo === 'resultado' ? '50%' : '100%',
             opacity: faseJogo === 'recriacao' ? 0 : 1,
             position: faseJogo === 'recriacao' ? 'absolute' : 'relative',
-            borderWidth: faseJogo === 'recriacao' ? '0px' : '6px',
+            borderWidth: faseJogo === 'recriacao' ? '0px' : '2px',
             overflow: 'hidden'
           }}>
-            {faseJogo === 'preparacao' && <span style={{ fontSize: '64px' }}>🎨</span>}
+            {faseJogo === 'preparacao' && <img 
+                                            src={coresImg} 
+                                            alt="Paleta de Cores" 
+                                            className="pixel-icon-paleta" 
+                                          />}
             {faseJogo === 'resultado' && <span className="color-label">ORIGINAL</span>}
           </div>
 
@@ -128,7 +153,7 @@ function CoresJogo({ setTelaAtual }) {
             width: faseJogo === 'resultado' ? '50%' : '100%',
             opacity: (faseJogo === 'memorizacao' || faseJogo === 'preparacao') ? 0 : 1,
             position: (faseJogo === 'memorizacao' || faseJogo === 'preparacao') ? 'absolute' : 'relative',
-            borderWidth: (faseJogo === 'memorizacao' || faseJogo === 'preparacao') ? '0px' : '6px',
+            borderWidth: (faseJogo === 'memorizacao' || faseJogo === 'preparacao') ? '0px' : '2px',
             overflow: 'hidden'
           }}>
             {faseJogo === 'resultado' && <span className="color-label">SUA COR</span>}

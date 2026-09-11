@@ -23,9 +23,25 @@ import TierListResultado from './pages/TierList/TierListResultado';
 
 function App() {
   const [telaAtual, setTelaAtual] = useState('home');
+  const [telaAnterior, setTelaAnterior] = useState('home');
+
+  const navegarPara = (novaTela) => {
+    setTelaAnterior(telaAtual);
+    setTelaAtual(novaTela);
+  };
+
+  const getClasseTema = () => {
+    if (telaAtual.startsWith('impostor')) return 'tema-impostor';
+    if (telaAtual.startsWith('sintonia')) return 'tema-sintonia';
+    if (telaAtual.startsWith('duvida'))   return 'tema-perguntas';
+    if (telaAtual.startsWith('dicas'))    return 'tema-dicas';
+    if (telaAtual.startsWith('tierlist')) return 'tema-tierlist';
+    if (telaAtual.startsWith('cores'))    return 'tema-cores';
+    return 'tema-padrao';
+  };
 
   return (
-    <div className="app-container">
+    <div className={`app-container bg-teste-pixels ${getClasseTema()}`}>
       <div className="tv-glass-overlay">
         <span className="osd-text top-left">CH 03</span>
         <span className="osd-text top-right">STEREO</span>
@@ -34,26 +50,25 @@ function App() {
       </div>
 
       {/* RENDERIZAÇÃO DOS COMPONENTES */}
-      {telaAtual === 'home' && <Home setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'sintonia-regras' && <SintoniaRegras setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'sintonia-jogo' && <SintoniaJogo setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'configuracoes' && <Configuracoes setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'impostor-regras' && <ImpostorRegras setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'impostor-jogo' && <ImpostorJogo setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'impostor-votacao' && <ImpostorVotacao setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'duvida-regras' && <PerguntaRegras setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'duvida-jogo' && <PerguntaJogo setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'duvida-votacao' && <PerguntaVotacao setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'cores-regras' && <CoresRegras setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'cores-jogo' && <CoresJogo setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'dicas-jogo' && <DicasJogo setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'dicas-regras' && <DicasRegras setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'tierlist-regras' && <TierListRegras setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'tierlist-jogo' && <TierListJogo setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'tierlist-debate' && <TierListDebate setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'tierlist-twist' && <TierListTwist setTelaAtual={setTelaAtual} />}
-      {telaAtual === 'tierlist-resultado' && <TierListResultado setTelaAtual={setTelaAtual} />}
-      
+      {telaAtual === 'home' && <Home setTelaAtual={navegarPara} />}
+      {telaAtual === 'sintonia-regras' && <SintoniaRegras setTelaAtual={navegarPara} />}
+      {telaAtual === 'sintonia-jogo' && <SintoniaJogo setTelaAtual={navegarPara} />}
+      {telaAtual === 'configuracoes' && <Configuracoes setTelaAtual={navegarPara} telaRetorno={telaAnterior} />}
+      {telaAtual === 'impostor-regras' && <ImpostorRegras setTelaAtual={navegarPara} />}
+      {telaAtual === 'impostor-jogo' && <ImpostorJogo setTelaAtual={navegarPara} />}
+      {telaAtual === 'impostor-votacao' && <ImpostorVotacao setTelaAtual={navegarPara} />}
+      {telaAtual === 'duvida-regras' && <PerguntaRegras setTelaAtual={navegarPara} />}
+      {telaAtual === 'duvida-jogo' && <PerguntaJogo setTelaAtual={navegarPara} />}
+      {telaAtual === 'duvida-votacao' && <PerguntaVotacao setTelaAtual={navegarPara} />}
+      {telaAtual === 'cores-regras' && <CoresRegras setTelaAtual={navegarPara} />}
+      {telaAtual === 'cores-jogo' && <CoresJogo setTelaAtual={navegarPara} />}
+      {telaAtual === 'dicas-jogo' && <DicasJogo setTelaAtual={navegarPara} />}
+      {telaAtual === 'dicas-regras' && <DicasRegras setTelaAtual={navegarPara} />}
+      {telaAtual === 'tierlist-regras' && <TierListRegras setTelaAtual={navegarPara} />}
+      {telaAtual === 'tierlist-jogo' && <TierListJogo setTelaAtual={navegarPara} />}
+      {telaAtual === 'tierlist-debate' && <TierListDebate setTelaAtual={navegarPara} />}
+      {telaAtual === 'tierlist-twist' && <TierListTwist setTelaAtual={navegarPara} />}
+      {telaAtual === 'tierlist-resultado' && <TierListResultado setTelaAtual={navegarPara} />}
     </div>
   );
 }

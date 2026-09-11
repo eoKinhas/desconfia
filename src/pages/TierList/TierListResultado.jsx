@@ -32,7 +32,7 @@ function TierListResultado({ setTelaAtual }) {
         <img src={logoImg} alt="Logo Desconfia" className="app-logo-small" style={{ marginTop: '8px', marginBottom: '12px' }} />
 
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <h1 className="reveal-text" style={{ fontSize: '35px', color: '#00ccff', fontFamily: '"Press Start 2P", cursive', marginTop: '6px' }}>
+          <h1 className="reveal-text" style={{ fontSize: '35px', color: '#ff5500', fontFamily: '"Press Start 2P", cursive', marginTop: '6px' }}>
             {setup?.tema}
           </h1>
         </div>

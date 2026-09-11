@@ -31,23 +31,48 @@ function TierListRegras({ setTelaAtual }) {
   const [temaAtual, setTemaAtual] = useState(sugestoesTemas[0]);
 
   useEffect(() => {
-    // Carrega todos os jogadores cadastrados no app usando o localStorage
+    // Carrega todos os jogadores válidos cadastrados no app
     const salvos = localStorage.getItem('desconfia_jogadores');
     let listaCadastrados = [];
     if (salvos) {
-      listaCadastrados = JSON.parse(salvos);
-      setJogadoresCadastrados(listaCadastrados);
+      try {
+        listaCadastrados = JSON.parse(salvos);
+      } catch (e) {
+        listaCadastrados = [];
+      }
     }
+    setJogadoresCadastrados(listaCadastrados);
+
+    // Conjunto com os IDs dos jogadores cadastrados
+    const idsValidos = new Set(listaCadastrados.map(j => j.id));
 
     // Busca as configurações da última partida de Tier List
     const setupSalvo = localStorage.getItem('tierlist_setup_atual');
     if (setupSalvo) {
-      const setup = JSON.parse(setupSalvo);
-      setJogadoresSelecionados(setup.jogadores || []);
-      
-      if (setup.ordem && setup.ordem.length > 0) {
-        setOrdemJogadores(setup.ordem);
-      } else {
+      try {
+        const setup = JSON.parse(setupSalvo);
+        
+        // Limpa IDs de jogadores deletados da seleção
+        const selecionadosLimpos = (setup.jogadores || []).filter(id => idsValidos.has(id));
+        setJogadoresSelecionados(selecionadosLimpos);
+
+        // Se houver tema salvo da última vez, restaura
+        if (setup.tema) {
+          setTemaAtual(setup.tema);
+        }
+
+        // Mantém a ordem salva apenas para jogadores que ainda existem
+        const ordemSalvaLimpa = (setup.ordem || []).filter(id => idsValidos.has(id));
+        // Adiciona no final novos jogadores cadastrados recentemente
+        const idsJaNaOrdem = new Set(ordemSalvaLimpa);
+        const novosJogadores = listaCadastrados
+          .map(j => j.id)
+          .filter(id => !idsJaNaOrdem.has(id));
+
+        setOrdemJogadores([...ordemSalvaLimpa, ...novosJogadores]);
+      } catch (e) {
+        // Fallback em caso de JSON corrompido
+        setJogadoresSelecionados([]);
         setOrdemJogadores(listaCadastrados.map(j => j.id));
       }
     } else {
@@ -151,6 +176,15 @@ function TierListRegras({ setTelaAtual }) {
           selecionados={jogadoresSelecionados}
           onChangeOrdem={setOrdemJogadores}
           onToggleSelecionado={toggleJogador}
+          onAbrirConfig={() => {
+            const temaFinal = temaAtual.trim() !== '' ? temaAtual.trim().toUpperCase() : sugestoesTemas[indiceTema];
+            localStorage.setItem('tierlist_setup_atual', JSON.stringify({
+              jogadores: jogadoresSelecionados,
+              ordem: ordemJogadores,
+              tema: temaFinal
+            }));
+            setTelaAtual('configuracoes');
+          }}
           titulo="QUEM VAI JOGAR?"
         />
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import configIcon from '../assets/configuracoes-icon.png';
 import {
   DndContext,
   closestCenter,
@@ -25,40 +26,67 @@ function ItemArrastavel({ id, jogador, index, ativo, onToggle }) {
   };
 
   return (
-    <div
-    ref={setNodeRef}
-    style={{
+     <div
+      ref={setNodeRef}
+      style={{
         ...style,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: ativo ? 'rgba(0,204,255,0.1)' : 'rgba(255,255,255,0.05)',
-        border: ativo ? '1px solid #00ccff' : '1px solid transparent',
-        padding: '8px 12px',
-        borderRadius: '8px',
+        background: ativo ? 'rgba(0, 204, 255, 0.08)' : 'rgba(255, 255, 255, 0.04)',
+        border: ativo ? '3px solid #00ccff' : '3px solid #2a2a2a',
+        borderRadius: '0px',
+        padding: '10px 12px',
         fontFamily: '"Press Start 2P", cursive',
-    }}
-    {...attributes}
+      }}
+      {...attributes}
     >
-    <div
+      <div
         onClick={() => onToggle(id)}
-        style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, cursor: 'pointer' }}
-    >
-        <span style={{ fontSize: '10px', fontFamily: '"Press Start 2P", cursive' }}>
-        {ativo ? `${index + 1}. ` : ''}{jogador?.avatar} {jogador?.nome}
+        style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, cursor: 'pointer' }}
+      >
+        {ativo && (
+          <span style={{ fontSize: '11px', color: '#00ccff', minWidth: '18px' }}>
+            {index + 1}.
+          </span>
+        )}
+
+        <span style={{ 
+          fontSize: '24px', 
+          lineHeight: 1, 
+          display: 'inline-flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          transform: 'translateY(-6px)'
+        }}>
+          {jogador?.avatar}
         </span>
-    </div>
-    <span
+
+        <span style={{ fontSize: '13px', color: '#ffffff', wordBreak: 'break-word' }}>
+          {jogador?.nome}
+        </span>
+      </div>
+
+      {/* ÍCONE DE ARRASTAR */}
+      <span
         {...listeners}
-        style={{ fontSize: '16px', color: '#888', padding: '4px 8px', touchAction: 'none', cursor: 'grab' }}
-    >
+        style={{ fontSize: '20px', color: '#888', padding: '4px 8px', touchAction: 'none', cursor: 'grab' }}
+      >
         ≡
-    </span>
+      </span>
     </div>
   );
 }
 
-function Jogadores({ jogadoresCadastrados, ordem, selecionados, onChangeOrdem, onToggleSelecionado, titulo = 'QUEM VAI JOGAR?' }) {
+function Jogadores({ 
+  jogadoresCadastrados = [], 
+  ordem = [], 
+  selecionados = [], 
+  onChangeOrdem, 
+  onToggleSelecionado, 
+  onAbrirConfig,
+  titulo = 'QUEM VAI JOGAR?' 
+}) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 5 } })
@@ -74,33 +102,70 @@ function Jogadores({ jogadoresCadastrados, ordem, selecionados, onChangeOrdem, o
     onChangeOrdem(arrayMove(ordem, oldIndex, newIndex));
   };
 
+  // Filtra apenas os IDs que realmente existem entre os cadastrados
+  const idsCadastrados = new Set(jogadoresCadastrados.map(j => j.id));
+  const ordemValida = ordem.filter(id => idsCadastrados.has(id));
+  const ordemAtivos = ordemValida.filter(id => selecionados.includes(id));
+
   return (
     <div className="game-status-box" style={{ padding: '16px', marginBottom: '16px', width: '100%' }}>
-      <p className="status-text" style={{ marginBottom: '12px', color: '#fff' }}>{titulo}</p>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={ordem} strategy={verticalListSortingStrategy}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {(() => {
-            const ordemAtivos = ordem.filter(id => selecionados.includes(id));
-            return ordem.map((id) => {
+      {/* CABEÇALHO COM TÍTULO E BOTÃO DE CONFIGURAÇÃO */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <p className="status-text" style={{ color: '#fff', margin: 0 }}>{titulo}</p>
+        {onAbrirConfig && (
+          <button 
+            type="button"
+            onClick={onAbrirConfig}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              outline: 'none'
+            }}
+          >
+            <img 
+              src={configIcon} 
+              alt="Cadastrar Jogadores" 
+              style={{ width: '24px', height: '24px', objectFit: 'contain', imageRendering: 'pixelated' }} 
+            />
+          </button>
+        )}
+      </div>
+
+      {/* LISTA ARRASTÁVEL DE JOGADORES OU AVISO SE VAZIO */}
+      {jogadoresCadastrados.length === 0 ? (
+        <p style={{ color: '#888', fontSize: '10px', textAlign: 'center', fontFamily: '"Press Start 2P", cursive', lineHeight: '1.6' }}>
+          NENHUM JOGADOR CADASTRADO.<br />TOQUE NA ENGRENAGEM PARA CADASTRAR!
+        </p>
+      ) : (
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={ordemValida} strategy={verticalListSortingStrategy}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {ordemValida.map((id) => {
                 const jogador = jogadoresCadastrados.find(j => j.id === id);
+                if (!jogador) return null;
+
                 const ativo = selecionados.includes(id);
                 const indexAtivo = ordemAtivos.indexOf(id);
+
                 return (
-                <ItemArrastavel
+                  <ItemArrastavel
                     key={id}
                     id={id}
                     jogador={jogador}
                     index={indexAtivo}
                     ativo={ativo}
                     onToggle={onToggleSelecionado}
-                />
+                  />
                 );
-            });
-            })()}
-        </div>
-        </SortableContext>
-      </DndContext>
+              })}
+            </div>
+          </SortableContext>
+        </DndContext>
+      )}
     </div>
   );
 }

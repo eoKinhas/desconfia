@@ -40,12 +40,48 @@ body {
   height: 100dvh;
 }
 
-#root {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+/* Background*/
+@property --cor-tema {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #00ccff;
+}
+
+/* 2. Background Base */
+.bg-teste-pixels {
+  --cor-tema: #037c9b; /* Cor padrão (Ciano) */
+
+  background-color: #0a0a0c;
+  background-image: 
+    radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--cor-tema) 18%, transparent) 0%, transparent 95%),
+    radial-gradient(2px 2px at 20px 30px, color-mix(in srgb, var(--cor-tema) 50%, transparent), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.4), rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 80px 120px, color-mix(in srgb, var(--cor-tema) 30%, transparent), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 110px 40px, rgba(255, 255, 255, 0.3), rgba(0,0,0,0));
+  background-size: 100% 100%, 140px 140px, 140px 140px, 140px 140px, 140px 140px;
+  animation: flutuarPixels 20s linear infinite;
+  transition: --cor-tema 1.2s ease-in-out;
+}
+
+.bg-teste-pixels.tema-impostor { --cor-tema: #ff003c; } /* Vermelho */
+.bg-teste-pixels.tema-sintonia { --cor-tema: #00e5ff; } /* Azul Ciano */
+.bg-teste-pixels.tema-perguntas { --cor-tema: #9d00ff; } /* Roxo */
+.bg-teste-pixels.tema-dicas { --cor-tema: #ffea00; } /* Amarelo */
+.bg-teste-pixels.tema-tierlist { --cor-tema: #ff5500; }
+.bg-teste-pixels.tema-cores {
+  background-image: 
+    linear-gradient(135deg, rgba(251, 255, 0, 0.12) 10%, rgba(0, 255, 102, 0.12) 55%, rgba(0, 204, 255, 0.12) 100%),
+    radial-gradient(2px 2px at 20px 30px, rgba(251, 255, 0, 0.5), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.4), rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 80px 120px, rgba(0, 255, 102, 0.4), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 110px 40px, rgba(0, 204, 255, 0.4), rgba(0,0,0,0));
+}
+
+
+@keyframes flutuarPixels {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 -280px, 0 -140px, 0 -420px, 0 -210px; }
 }
 
 .app-container {
@@ -67,6 +103,16 @@ body {
 @keyframes tv-scanlines {
   0% { background-position: 0 0; }
   100% { background-position: 0 20px; }
+}
+
+
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tv-glass-overlay {
@@ -261,6 +307,38 @@ body {
   display: block; 
 }
 
+
+@keyframes entradaLentaRegras {
+  0% {
+    opacity: 0;
+    transform: translateY(90px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rules-screen > * {
+  animation: entradaLentaRegras 1.4s cubic-bezier(0.12, 0.9, 0.25, 1) both;
+  will-change: transform, opacity;
+}
+
+.rules-screen > *:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.rules-screen > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.rules-screen > *:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
 .rules-screen {
   display: flex;
   flex-direction: column;
@@ -344,23 +422,24 @@ body {
 
 .page-transition {
   width: 100%;
-  animation: slideFadeIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: slideFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 
 @keyframes slideFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(35px);
   }
   100% {
     opacity: 1;
-    transform: none;
+    transform: translateY(0);
   }
 }
 
 .game-status-box {
   background-color: rgba(0, 0, 0, 0.8);
-  border: 3px solid #00ccff;
+  border: 3px solid #e5e6e7b3;
   padding: 12px;
   text-align: center;
   width: 100%;
@@ -726,8 +805,12 @@ body {
 }
 
 .player-avatar {
-  font-family: 'Press Start 2P', cursive;
   font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-6px);
+  line-height: 1;
 }
 
 .player-name {
@@ -792,13 +875,23 @@ body {
 }
 
 .player-chip.selecionado {
-  border: 2px solid #ffcc00; /* Destaque amarelo para quem vai jogar */
+  border: 2px solid #ffcc00;
   color: #ffffff;
   opacity: 1;
-  background-color: #222222;
+  background-color: #1e1e1e;
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.8), 2px 2px 0px #000000;
+  transform: scale(1.03);
 }
 
-.avatar-display { font-size: 80px; margin: 40px 0; }
+.avatar-display {
+  font-size: 80px;
+  margin: 40px 0;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-6px);
+}
 
 .hold-btn {
   width: min(220px, 60vw);
@@ -835,6 +928,14 @@ body {
   text-shadow: 3px 3px 0px #fff;
 }
 
+.invert-text { 
+  font-family: 'Press Start 2P', cursive; 
+  font-size: 40px; 
+  color: #ffffff;
+  margin: 20px 0;
+  text-shadow: 5px 5px 0px #000000;
+}
+
 .menor-text { 
   font-family: 'Press Start 2P', cursive; 
   font-size: 15px; 
@@ -843,14 +944,23 @@ body {
   text-shadow: 2px 2px 0px #fff;
 }
 
+.pixel-icon-paleta {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  display: block;
+  margin: 0 auto;
+}
+
 /* ========================================= */
 
 .color-display-box {
   width: 100%;
   height: 100%; 
-  border: 6px solid #ffffff;
-  box-shadow: 8px 8px 0px #000000, 0px 0px 20px rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  border: 1px solid #ffffff;
+  border-radius: 0px;
+  box-shadow: 10px 10px 0px #000000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -910,7 +1020,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Retrato flexível: cresce conforme o tamanho do emoji ou imagem sem cortar */
 .player-turn-avatar {
   width: fit-content;
   height: fit-content;
@@ -920,8 +1029,9 @@ body {
   justify-content: center;
   align-items: center;
   font-size: clamp(32px, 8vw, 44px);
-  line-height: 1.25; /* Dá a folga necessária para a base do emoji não ser cortada */
-  overflow: visible;  /* Evita qualquer ceifamento da imagem/emoji */
+  line-height: 0;
+  transform: translateY(-6px);
+  overflow: visible;
   flex-shrink: 0;
 }
 
@@ -1080,7 +1190,8 @@ body {
   overflow: hidden; 
 }
 
-.selecionado {
+.tier-item.selecionado,
+.tier-item-pendente.selecionado {
   border-color: #00ccff !important;
   color: #00ccff !important;
   box-shadow: 0 0 10px rgba(0, 204, 255, 0.8), 2px 2px 0px #000000;
@@ -1090,6 +1201,7 @@ body {
 .pulsar-alvo {
   animation: piscar-alvo 1.5s infinite;
 }
+
 @keyframes piscar-alvo {
   50% { filter: brightness(1.3); }
 }

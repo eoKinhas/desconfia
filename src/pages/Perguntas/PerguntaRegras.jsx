@@ -16,36 +16,54 @@ function PerguntaRegras({ setTelaAtual }) {
   const [ordemJogadores, setOrdemJogadores] = useState([]);
 
   useEffect(() => {
-    // Carrega todos os jogadores que foram cadastrados na Engrenagem
+    // Carrega todos os jogadores válidos cadastrados no app
     const jogadoresSalvos = localStorage.getItem('desconfia_jogadores');
     let listaCadastrados = [];
     if (jogadoresSalvos) {
-      listaCadastrados = JSON.parse(jogadoresSalvos);
-      setJogadoresCadastrados(listaCadastrados);
+      try {
+        listaCadastrados = JSON.parse(jogadoresSalvos);
+      } catch (e) {
+        listaCadastrados = [];
+      }
     }
+    setJogadoresCadastrados(listaCadastrados);
+
+    const idsValidos = new Set(listaCadastrados.map(j => j.id));
 
     // Busca as configurações da última partida de Dúvida
     const setupSalvo = localStorage.getItem('duvida_setup_atual');
     if (setupSalvo) {
-      const setup = JSON.parse(setupSalvo);
-      // Restaura os jogadores que estavam jogando e a quantidade de infiltrados
-      setJogadoresSelecionados(setup.jogadores || []);
-      setQtdImpostores(setup.impostores || 1);
+      try {
+        const setup = JSON.parse(setupSalvo);
 
-      // Restaura os temas selecionados (se houver). Se não, deixa todos marcados.
-      if (setup.temas && setup.temas.length > 0) {
-        setTemasSelecionados(setup.temas);
-      }
+        const selecionadosLimpos = (setup.jogadores || []).filter(id => idsValidos.has(id));
+        setJogadoresSelecionados(selecionadosLimpos);
 
-      // Restaura a ordem salva; se não houver, usa a ordem dos cadastrados
-      if (setup.ordem && setup.ordem.length > 0) {
-        setOrdemJogadores(setup.ordem);
-      } else {
+        setQtdImpostores(setup.impostores || 1);
+
+        // Valida se os temas salvos realmente existem no banco atual
+        const temasValidos = (setup.temas || []).filter(t => temasDisponiveis.includes(t));
+        if (temasValidos.length > 0) {
+          setTemasSelecionados(temasValidos);
+        } else {
+          setTemasSelecionados(temasDisponiveis); // Se não houver válidos, seleciona todos por padrão
+        }
+
+        const ordemSalvaLimpa = (setup.ordem || []).filter(id => idsValidos.has(id));
+        const idsJaNaOrdem = new Set(ordemSalvaLimpa);
+        const novosJogadores = listaCadastrados
+          .map(j => j.id)
+          .filter(id => !idsJaNaOrdem.has(id));
+
+        setOrdemJogadores([...ordemSalvaLimpa, ...novosJogadores]);
+      } catch (e) {
+        setJogadoresSelecionados([]);
+        setTemasSelecionados(temasDisponiveis);
         setOrdemJogadores(listaCadastrados.map(j => j.id));
       }
     } else {
-      // Se for a primeira vez jogando (sem memória), começa zerado
       setJogadoresSelecionados([]);
+      setTemasSelecionados(temasDisponiveis);
       setOrdemJogadores(listaCadastrados.map(j => j.id));
     }
   }, []);
@@ -59,11 +77,21 @@ function PerguntaRegras({ setTelaAtual }) {
   };
 
   const toggleTema = (tema) => {
-    if (temasSelecionados.includes(tema)) {
-      setTemasSelecionados(temasSelecionados.filter(t => t !== tema));
-    } else {
-      setTemasSelecionados([...temasSelecionados, tema]);
-    }
+    // Usa o estado funcional para garantir leitura em tempo real
+    setTemasSelecionados((prevTemas) => {
+      const jaSelecionado = prevTemas.includes(tema);
+      
+      if (jaSelecionado) {
+        // Se for o ÚLTIMO tema restante, bloqueia a desmarcação
+        if (prevTemas.length <= 1) {
+          setAlerta("PELO MENOS UM TEMA DEVE FICAR SELECIONADO!");
+          return prevTemas;
+        }
+        return prevTemas.filter(t => t !== tema);
+      } else {
+        return [...prevTemas, tema];
+      }
+    });
   };
 
   const aumentarImpostores = () => {
@@ -79,7 +107,15 @@ function PerguntaRegras({ setTelaAtual }) {
     }
   };
 
-  const iniciarPartida = () => {
+    const iniciarPartida = () => {
+    // Filtra apenas temas válidos antes de validar o tamanho
+    const temasValidos = temasSelecionados.filter(t => temasDisponiveis.includes(t));
+
+    if (!temasValidos || temasValidos.length === 0) {
+      setAlerta("SELECIONE PELO MENOS UM TEMA PARA JOGAR!");
+      return;
+    }
+
     if (jogadoresSelecionados.length < 3) {
       setAlerta("SELECIONE PELO MENOS 3 JOGADORES!");
       return;
@@ -90,21 +126,15 @@ function PerguntaRegras({ setTelaAtual }) {
       setAlerta(`O NÚMERO DE INFILTRADOS DEVE SER NO MÁXIMO A METADE DOS JOGADORES (${maxImpostores}).`);
       return;
     }
-
-    if (temasSelecionados.length === 0) {
-      setAlerta("SELECIONE PELO MENOS UM TEMA PARA JOGAR!");
-      return;
-    }
     
     const setupPartida = {
       jogadores: jogadoresSelecionados,
       ordem: ordemJogadores,
       impostores: qtdImpostores,
-      temas: temasSelecionados
+      temas: temasValidos
     };
-    // Salva na memória exclusiva do jogo Dúvida
-    localStorage.setItem('duvida_setup_atual', JSON.stringify(setupPartida));
     
+    localStorage.setItem('duvida_setup_atual', JSON.stringify(setupPartida));
     setTelaAtual('duvida-jogo');
   };
 
@@ -160,6 +190,15 @@ function PerguntaRegras({ setTelaAtual }) {
           selecionados={jogadoresSelecionados}
           onChangeOrdem={setOrdemJogadores}
           onToggleSelecionado={toggleJogador}
+          onAbrirConfig={() => {
+            localStorage.setItem('duvida_setup_atual', JSON.stringify({
+              jogadores: jogadoresSelecionados,
+              ordem: ordemJogadores,
+              impostores: qtdImpostores,
+              temas: temasSelecionados
+            }));
+            setTelaAtual('configuracoes');
+          }}
           titulo="QUEM VAI JOGAR?"
         />
 
