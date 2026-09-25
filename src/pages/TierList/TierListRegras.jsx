@@ -21,6 +21,7 @@ const sugestoesTemas = [
 ];
 
 function TierListRegras({ setTelaAtual }) {
+  const [modoJogo, setModoJogo] = useState('padrao');
   const [jogadoresCadastrados, setJogadoresCadastrados] = useState([]);
   const [jogadoresSelecionados, setJogadoresSelecionados] = useState([]);
   const [ordemJogadores, setOrdemJogadores] = useState([]);
@@ -56,6 +57,11 @@ function TierListRegras({ setTelaAtual }) {
         const selecionadosLimpos = (setup.jogadores || []).filter(id => idsValidos.has(id));
         setJogadoresSelecionados(selecionadosLimpos);
 
+        // Se houver modo salvo da última vez, restaura
+        if (setup.modo) {
+          setModoJogo(setup.modo);
+        }
+
         // Se houver tema salvo da última vez, restaura
         if (setup.tema) {
           setTemaAtual(setup.tema);
@@ -73,10 +79,12 @@ function TierListRegras({ setTelaAtual }) {
       } catch (e) {
         // Fallback em caso de JSON corrompido
         setJogadoresSelecionados([]);
+        setModoJogo('padrao');
         setOrdemJogadores(listaCadastrados.map(j => j.id));
       }
     } else {
       setJogadoresSelecionados([]);
+      setModoJogo('padrao');
       setOrdemJogadores(listaCadastrados.map(j => j.id));
     }
   }, []);
@@ -97,8 +105,8 @@ function TierListRegras({ setTelaAtual }) {
   };
 
   const iniciarPartida = () => {
-    if (jogadoresSelecionados.length < 3) {
-      setAlerta("SELECIONE PELO MENOS 3 JOGADORES!");
+    if (jogadoresSelecionados.length < 2) {
+      setAlerta("SELECIONE PELO MENOS 2 JOGADORES!");
       return;
     }
     
@@ -108,7 +116,8 @@ function TierListRegras({ setTelaAtual }) {
     const setupPartida = {
       jogadores: jogadoresSelecionados,
       ordem: ordemJogadores,
-      tema: temaFinal
+      tema: temaFinal,
+      modo: modoJogo
     };
     
     // Salva na memória do celular para a próxima vez
@@ -140,6 +149,34 @@ function TierListRegras({ setTelaAtual }) {
           <p>O grupo debate para organizar a lista final sem saber quem sugeriu o quê!</p>
         </div>
 
+        {/* CONFIGURAÇÕES DO MODO DE JOGO */}
+        <div className="game-status-box" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+          <div>
+            <p className="status-text" style={{ marginBottom: '8px', color: '#fff' }}>MODO DE JOGO:</p>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button 
+                type="button"
+                className={`toggle-btn ${modoJogo === 'padrao' ? 'ativo' : ''}`}
+                onClick={() => setModoJogo('padrao')}
+              >
+                PADRÃO
+              </button>
+              <button 
+                type="button"
+                className={`toggle-btn ${modoJogo === 'twist' ? 'ativo' : ''}`}
+                onClick={() => setModoJogo('twist')}
+              >
+                TWIST
+              </button>
+            </div>
+            <p style={{ fontSize: '8px', color: '#888', marginTop: '8px', fontFamily: '"Press Start 2P", cursive', lineHeight: '1.4' }}>
+              {modoJogo === 'padrao' 
+                ? '* O grupo debate a lista e revela o resultado direto.' 
+                : '* No final do debate, cada jogador tem sua vez para mover 1 item.'}
+            </p>
+          </div>
+        </div>
+
         {/* SELEÇÃO DO TEMA */}
         <div className="game-status-box" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
           <p className="status-text" style={{ color: '#ffffff', fontSize: '12px' }}>TEMA DA PARTIDA:</p>
@@ -154,7 +191,6 @@ function TierListRegras({ setTelaAtual }) {
               maxLength={35}
             />
 
-            {/* Botão sem caixa, apenas com a imagem */}
             <button 
               className="tema-btn-random" 
               onClick={proximoTema}
@@ -181,7 +217,8 @@ function TierListRegras({ setTelaAtual }) {
             localStorage.setItem('tierlist_setup_atual', JSON.stringify({
               jogadores: jogadoresSelecionados,
               ordem: ordemJogadores,
-              tema: temaFinal
+              tema: temaFinal,
+              modo: modoJogo
             }));
             setTelaAtual('configuracoes');
           }}

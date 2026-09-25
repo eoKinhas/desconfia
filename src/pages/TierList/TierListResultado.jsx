@@ -8,7 +8,7 @@ function TierListResultado({ setTelaAtual }) {
 
   useEffect(() => {
     const setupSalvo = JSON.parse(localStorage.getItem('tierlist_setup_atual'));
-    const final = JSON.parse(localStorage.getItem('tierlist_twist_final')) || [];
+    const final = JSON.parse(localStorage.getItem('tierlist_twist_final')) || JSON.parse(localStorage.getItem('tierlist_debate_final')) || [];
     setSetup(setupSalvo);
     setSugestoesFinais(final);
   }, []);
@@ -92,7 +92,7 @@ function TierListResultado({ setTelaAtual }) {
                   <span className="revelacao-nome">POR: {s.nome}</span>
                 </div>
 
-                {/* Rank Real Sorteado com ícone de acerto/erro */}
+                {/* Rank Real */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div className={`rank-badge-mini rank-${s.rankSorteado}`}>
                     {s.rankSorteado}

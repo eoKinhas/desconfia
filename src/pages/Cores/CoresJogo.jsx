@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import logoImg from '../../assets/logo.png';
 import coresImg from '../../assets/cores-icon.png';
 
-// Geração criptográfica usando HSL
+// Geração criptográfica usando HSL com limites perceptivos
 const gerarCorAleatoria = () => {
   const valores = new Uint32Array(3);
   window.crypto.getRandomValues(valores);
   return { 
+    // Matiz: 0 a 360 graus (espectro completo)
     h: valores[0] % 361, 
-    s: valores[1] % 101, 
-    l: valores[2] % 101 
+    // Saturação: 25% a 100% (elimina cinzas lavados onde o matiz fica imperceptível)
+    s: (valores[1] % 76) + 25, 
+    // Brilho: 15% a 85% (corta 15% dos extremos escuro/claro, mantendo os 70% do meio)
+    l: (valores[2] % 71) + 15 
   };
 };
 
@@ -20,6 +23,7 @@ function CoresJogo({ setTelaAtual }) {
   const [corAlvo, setCorAlvo] = useState({ h: 0, s: 0, l: 0 });
   const [corAtual, setCorAtual] = useState({ h: 180, s: 50, l: 50 });
   const [pontuacao, setPontuacao] = useState(0);
+  const [precisoes, setPrecisoes] = useState({ h: 0, s: 0, l: 0 });
 
   // Efeito do Cronômetro
   useEffect(() => {
@@ -54,6 +58,11 @@ function CoresJogo({ setTelaAtual }) {
     const diffH = Math.min(Math.abs(corAlvo.h - corAtual.h), 360 - Math.abs(corAlvo.h - corAtual.h));
     const diffS = Math.abs(corAlvo.s - corAtual.s);
     const diffL = Math.abs(corAlvo.l - corAtual.l);
+
+    // Precisões individuais em porcentagem (0% a 100%)
+    const precH = Math.max(0, Math.round((1 - diffH / 180) * 100));
+    const precS = Math.max(0, Math.round((1 - diffS / 100) * 100));
+    const precL = Math.max(0, Math.round((1 - diffL / 100) * 100));
     
     // Se a cor alvo é quase preta (L perto de 0), quase branca (L perto de 100) ou cinza (S perto de 0), o matiz importa menos.
     const fatorLuz = 1 - (Math.abs(50 - corAlvo.l) / 50); 
@@ -76,11 +85,13 @@ function CoresJogo({ setTelaAtual }) {
     const precisao = Math.max(0, Math.floor(precisaoDecimal * 100));
     
     setPontuacao(precisao);
+    setPrecisoes({ h: precH, s: precS, l: precL });
     setFaseJogo('resultado');
   };
 
   const proximaRodada = () => {
     setFaseJogo('preparacao');
+    setPrecisoes({ h: 0, s: 0, l: 0 });
   };
 
   const formatarCronometro = (msRestantes) => {
@@ -186,6 +197,190 @@ function CoresJogo({ setTelaAtual }) {
                      className="retro-slider" style={{ background: fundoBrilho, marginTop: '4px' }} />
             </div>
             
+          </div>
+        )}
+
+        {/* ESTATÍSTICAS DETALHADAS COM BARRAS COMPLETAS E MARCADORES */}
+        {faseJogo === 'resultado' && (
+          <div className="page-transition" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', padding: '8px 0' }}>
+            
+            {/* LINHA 1: MATIZ */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: '#ffffff', fontFamily: '"Press Start 2P", cursive', fontSize: '12px' }}>MATIZ</span>
+                <span style={{ color: '#ffea00', fontFamily: '"Press Start 2P", cursive', fontSize: '14px', textShadow: '2px 2px 0px #000' }}>
+                  {precisoes.h}%
+                </span>
+              </div>
+              
+              <div style={{
+                width: '100%',
+                height: '26px',
+                background: fundoHue,
+                border: '3px solid #000000',
+                boxShadow: '3px 3px 0px #ffffff',
+                position: 'relative',
+                overflow: 'hidden',
+              }}>
+                {/* Marcador SUA COR */}
+                <div style={{
+                  position: 'absolute',
+                  left: `calc(4px + (${(corAtual.h / 360) * 100} / 100) * (100% - 8px))`,
+                  top: 0,
+                  bottom: 0,
+                  width: '8px',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #000000',
+                  boxShadow: '1px 1px 0px #000000',
+                  zIndex: 1,
+                }} />
+
+                {/* Marcador ALVO (Posição Certa) */}
+                <div style={{
+                  position: 'absolute',
+                  left: `calc(4px + (${(corAlvo.h / 360) * 100} / 100) * (100% - 8px))`,
+                  top: 0,
+                  bottom: 0,
+                  width: '8px',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#ffea00',
+                  border: '2px solid #000000',
+                  boxShadow: '0 0 8px #ffea00',
+                  zIndex: 2,
+                }} />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontFamily: '"Press Start 2P", cursive', marginTop: '2px' }}>
+                <span style={{ color: '#ffea00', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#ffea00', border: '1px solid #000' }}></span>
+                  ALVO: {corAlvo.h}°
+                </span>
+                <span style={{ color: '#ffffff', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#ffffff', border: '1px solid #000' }}></span>
+                  SUA: {corAtual.h}°
+                </span>
+              </div>
+            </div>
+
+            {/* LINHA 2: SATURAÇÃO */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: '#ffffff', fontFamily: '"Press Start 2P", cursive', fontSize: '12px' }}>SATURAÇÃO</span>
+                <span style={{ color: '#ffea00', fontFamily: '"Press Start 2P", cursive', fontSize: '14px', textShadow: '2px 2px 0px #000' }}>
+                  {precisoes.s}%
+                </span>
+              </div>
+              
+              <div style={{
+                width: '100%',
+                height: '26px',
+                background: fundoSaturacao,
+                border: '3px solid #000000',
+                boxShadow: '3px 3px 0px #ffffff',
+                position: 'relative',
+                overflow: 'hidden',
+              }}>
+                {/* Marcador SUA COR */}
+                <div style={{
+                  position: 'absolute',
+                  left: `calc(4px + (${corAtual.s} / 100) * (100% - 8px))`,
+                  top: 0,
+                  bottom: 0,
+                  width: '8px',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #000000',
+                  boxShadow: '1px 1px 0px #000000',
+                  zIndex: 1,
+                }} />
+
+                {/* Marcador ALVO (Posição Certa) */}
+                <div style={{
+                  position: 'absolute',
+                  left: `calc(4px + (${corAlvo.s} / 100) * (100% - 8px))`,
+                  top: 0,
+                  bottom: 0,
+                  width: '8px',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#ffea00',
+                  border: '2px solid #000000',
+                  boxShadow: '0 0 8px #ffea00',
+                  zIndex: 2,
+                }} />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontFamily: '"Press Start 2P", cursive', marginTop: '2px' }}>
+                <span style={{ color: '#ffea00', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#ffea00', border: '1px solid #000' }}></span>
+                  ALVO: {corAlvo.s}%
+                </span>
+                <span style={{ color: '#ffffff', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#ffffff', border: '1px solid #000' }}></span>
+                  SUA: {corAtual.s}%
+                </span>
+              </div>
+            </div>
+
+            {/* LINHA 3: BRILHO */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: '#ffffff', fontFamily: '"Press Start 2P", cursive', fontSize: '12px' }}>BRILHO (LUZ)</span>
+                <span style={{ color: '#ffea00', fontFamily: '"Press Start 2P", cursive', fontSize: '14px', textShadow: '2px 2px 0px #000' }}>
+                  {precisoes.l}%
+                </span>
+              </div>
+              
+              <div style={{
+                width: '100%',
+                height: '26px',
+                background: fundoBrilho,
+                border: '3px solid #000000',
+                boxShadow: '3px 3px 0px #ffffff',
+                position: 'relative',
+                overflow: 'hidden',
+              }}>
+                {/* Marcador SUA COR */}
+                <div style={{
+                  position: 'absolute',
+                  left: `calc(4px + (${corAtual.l} / 100) * (100% - 8px))`,
+                  top: 0,
+                  bottom: 0,
+                  width: '8px',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #000000',
+                  boxShadow: '1px 1px 0px #000000',
+                  zIndex: 1,
+                }} />
+
+                {/* Marcador ALVO (Posição Certa) */}
+                <div style={{
+                  position: 'absolute',
+                  left: `calc(4px + (${corAlvo.l} / 100) * (100% - 8px))`,
+                  top: 0,
+                  bottom: 0,
+                  width: '8px',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#ffea00',
+                  border: '2px solid #000000',
+                  boxShadow: '0 0 8px #ffea00',
+                  zIndex: 2,
+                }} />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontFamily: '"Press Start 2P", cursive', marginTop: '2px' }}>
+                <span style={{ color: '#ffea00', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#ffea00', border: '1px solid #000' }}></span>
+                  ALVO: {corAlvo.l}%
+                </span>
+                <span style={{ color: '#ffffff', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#ffffff', border: '1px solid #000' }}></span>
+                  SUA: {corAtual.l}%
+                </span>
+              </div>
+            </div>
+
           </div>
         )}
 
